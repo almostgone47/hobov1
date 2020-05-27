@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
-import Header from './components/Header';
-import RentalList from './components/Rental/RentalList';
-import RentalDetails from './components/Rental/RentalDetails';
+import Header from './components/shared/Header';
+import RentalList from './components/Rental/RentalListing/RentalList';
+import RentalDetails from './components/Rental/RentalDetails/RentalDetails';
 import './App.css';
 
 class App extends Component {
@@ -13,8 +13,9 @@ class App extends Component {
       <BrowserRouter>
         <Header />
         <div className='container'>
-          <Route exact path="/" component={RentalList} />
-          <Route exact path="/test" component={RentalDetails} />
+          <Route exact path="/" render={() => { return <Redirect to="/rentals" /> } } />
+          <Route exact path="/rentals" component={RentalList} />
+          <Route exact path="/rental/:id" component={RentalDetails} />
         </div>
       </BrowserRouter>
     );
