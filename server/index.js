@@ -8,8 +8,8 @@ const PORT = process.env.PORT || 3001;
 const rentalRoutes = require('./routes/rentals');
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
-    const fakeDb = new FakeDb();
-    fakeDb.seedDb();
+    // const fakeDb = new FakeDb();
+    // fakeDb.seedDb();
 });
 
 const app = express();

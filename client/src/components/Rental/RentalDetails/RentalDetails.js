@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import SimpleMap from '../../Map/GoogleMap';
+import RentalInfo from './RentalInfo';
+import RentalAssets from './RentalAssets';
 import * as actions from '../../../store/actions';
 
 export class RentalDetails extends Component {
@@ -11,18 +14,39 @@ export class RentalDetails extends Component {
     }
 
     render() {
-        console.log('something!: ', this.props)
+        const rental = this.props.rental
         return (
-            <div className='card-block'>
-                {this.props.rental.title}
-                {this.props.rental.city}
-                {this.props.rental.dailyRate}
-            </div>
+            <section id='rentalDetails'>
+                <div className='upper-section'>
+                    <div className='row'>
+                        <div className='col-md-6'>
+                            <img src={rental.image} alt=''></img>
+                        </div>
+                        <SimpleMap
+                            height='100'
+                            width='100'
+                        />
+                    </div>
+                </div>
+
+                <div className='details-section'>
+                    <div className='row'>
+                        <div className='col-md-8'>
+                            <RentalInfo rental={rental}/>
+                            <RentalAssets />
+                        </div>
+                    <div className='col-md-4'> 
+                        BOOKING
+                    </div>
+                    </div>
+                </div>
+            </section>
         )
     }
 }
 
 const mapStateToProps = (state) => {
+    console.log('mapStateToProps RentalDetails: ', state)
     return {
         rental: state.rentalData.rental
     }
