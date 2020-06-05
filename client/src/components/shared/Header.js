@@ -5,7 +5,7 @@ const Header = () => {
     return (
         <nav className="navbar navbar-dark navbar-expand-lg">
             <div className="container">
-                <Link to={"/rentals"} className="navbar-brand">BookWithMe</Link>
+                <Link to={"/rentals"} className="navbar-brand">Hobo</Link>
                 <form className="form-inline my-2 my-lg-0">
                     <input className="form-control mr-sm-2 bwm-search" type="search" placeholder="Try New York" aria-label="Search" />
                     <button className="btn btn-outline-success my-2 my-sm-0 btn-bwm-search" type="submit">Search</button>
@@ -15,8 +15,8 @@ const Header = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav ml-auto">
-                        <a className="nav-item nav-link active" href="">Login <span className="sr-only">(current)</span></a>
-                        <a className="nav-item nav-link" href="">Register</a>
+                        <Link to={"/login"} className="nav-item nav-link active">Login <span className="sr-only">(current)</span></Link>
+                        <Link to={"/register"} className="nav-item nav-link">Register</Link>
                     </div>
                 </div>
             </div>

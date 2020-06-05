@@ -1,3 +1,4 @@
+const User = require('./user');
 const Rental = require('./rental');
 
 class FakeDb {
@@ -54,6 +55,25 @@ class FakeDb {
             shared: true,
             createdAt: ""
         }]
+        
+        this.users = [{
+            username: "Test User",
+            email: "test@gmail.com",
+            password: "testtest"
+          }, {
+            username: "Test User2",
+            email: "test2@gmail.com",
+            password: "testtest2"
+        }]
+    }
+
+
+    pushUsersToDb() {
+        this.users.forEach(user => {
+            const newUser = new User(user);
+
+            newUser.save();
+        })
     }
 
     pushRentalsToDb() {
@@ -66,6 +86,7 @@ class FakeDb {
 
     seedDb() {
         this.cleanDb();
+        this.pushUsersToDb();
         this.pushRentalsToDb();
     }
 

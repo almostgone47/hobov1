@@ -1,22 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Rental = require('../models/rental');
+const controllers = require('../controllers/rentals');
 
 
-router.get('', (req, res) => {
-    Rental.find({}, (err, rentals) => {
-        res.json(rentals)
-    })
-})
+router.get('', controllers.getRentals);
 
-router.get('/:id', (req, res) => {
-    let id = req.params.id;
-    Rental.findById(id, (err, rental) => {
-        if (err) {
-            res.status(422).send({errors: [{title: 'Rental Error', details: 'Could not find rental.' }]})
-        }
-        res.json(rental)
-    })
-})
+router.get('/:id', controllers.getRentalById);
+
+router.post('', controllers.createRental);
 
 module.exports = router;
