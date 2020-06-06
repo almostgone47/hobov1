@@ -3,7 +3,9 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/dev');
 
 exports.loginUser = (req, res) => {
+
     const { email, password } = req.body;
+    
     if (!email || !password) {
         return res.status(422).send({errors: [{title: 'Missing data', details: 'Missing email or password'}]})
     }
@@ -32,13 +34,13 @@ exports.registerUser = (req, res) => {
     if (!email || !password || !username) {
         return res.status(422).send({errors: [{title: 'Missing data', details: 'Email,username and password are required'}]})
     }
-
+    
     if (password !== passwordConfirmation) {
         return res.status(422).send({errors: [{title: 'Cannot confirm password', details: 'Password Confirmation does not match password'}]})
     }
     User.findOne({email}, (err, existingUser) => {
         if (err) { return res.mongoError(err)}
-
+        
         if (existingUser) {
             return res.status(422).send({errors: [{ title: 'Invalid email', details: 'User email already exists' }]})
         }

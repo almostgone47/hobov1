@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logoutUser } from '../../store/actions/index';
 
-const Header = () => {
+const Header = (props) => {
     return (
         <nav className="navbar navbar-dark navbar-expand-lg">
             <div className="container">
@@ -15,8 +17,16 @@ const Header = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav ml-auto">
-                        <Link to={"/login"} className="nav-item nav-link active">Login <span className="sr-only">(current)</span></Link>
-                        <Link to={"/register"} className="nav-item nav-link">Register</Link>
+                        { props.user ? 
+                        <>
+                            <div className="nav-item nav-link">Welcome {props.user.username}</div>
+                            <div onClick={() => props.dispatch(logoutUser())} className="nav-item nav-link">Logout</div>
+                        </> : 
+                        <>
+                            <Link to={"/login"} className="nav-item nav-link active">Login <span className="sr-only">(current)</span></Link>
+                            <Link to={"/register"} className="nav-item nav-link">Register</Link>
+                        </>
+                        }
                     </div>
                 </div>
             </div>
@@ -24,4 +34,10 @@ const Header = () => {
     );
 };
 
-export default Header;
+const mapStateToProps = state => {
+    return {
+        user: state.auth.currentUser
+    }
+}
+
+export default connect(mapStateToProps)(Header);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import RentalCards from './RentalCard';
 
-class RentalList extends Component {
+class RentalListing extends Component {
 
     renderRentals() {
         return this.props.rentals.map((rental, index) => {
@@ -21,4 +21,4 @@ class RentalList extends Component {
     }
 }
 
-export default RentalList;
+export default RentalListing;

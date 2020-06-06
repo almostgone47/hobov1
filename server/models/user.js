@@ -28,7 +28,7 @@ const userSchema = new Schema({
 
 userSchema.methods.hasSamePassword = function(providedPassword) {
     const user = this;
-    return bcrypt.compare(providedPassword, user.password)
+    return bcrypt.compareSync(providedPassword, user.password);
 }
 
 userSchema.pre('save', function(next) {
@@ -37,7 +37,7 @@ userSchema.pre('save', function(next) {
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(user.password, salt, (err, hash) => {
             user.password = hash;
-            next()
+            next();
         })
     })
 })

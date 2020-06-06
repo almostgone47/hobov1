@@ -1,23 +1,18 @@
 import React from 'react';
 import RegisterForm from '../components/form/RegisterForm';
+import * as actions from '../store/actions';
+import Errors from '../components/shared/Errors';
+import { connect } from 'react-redux';
 
-const Register = () => {
-
-    const registerUser = (regData) => {
-        alert(JSON.stringify(regData))
-    }
+const Register = (props) => {
 
     return (
         <div className="bwm-form">
             <div className="row">
                 <div className="col-md-5">
                     <h1 className="page-title">Register</h1>
-                    <RegisterForm registerUser={registerUser}/>
-                    {/* <div className="alert alert-danger">
-                        <p>
-                        Some Error
-                        </p>
-                    </div> */}
+                    <RegisterForm registerUser={(userData) => props.dispatch(actions.registerUser(userData, props.history))}/>
+                    { props.errors ? <Errors errors={props.errors} /> : '' }
                 </div>
                 <div className="col-md-6 ml-auto">
                     <div className="image-container">
@@ -30,4 +25,11 @@ const Register = () => {
     )
 }
 
-export default Register
+
+const mapStateToProps = state => {
+    return {
+        errors: state.rentalData.errors
+    }
+}
+
+export default connect(mapStateToProps)(Register);

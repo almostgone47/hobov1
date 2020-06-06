@@ -7,7 +7,7 @@ const EMAIL_PATTERN = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".
 const RegisterForm = ({registerUser}) => {
 
     const { register, errors, handleSubmit, getValues } = useForm();
-
+    // Check react-hook-form documentation to see how form/inputs work
     return (
         <form onSubmit={handleSubmit(registerUser)}>
             <div className="form-group">

@@ -46,7 +46,6 @@ export class RentalDetails extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log('mapStateToProps RentalDetails: ', state)
     return {
         rental: state.rentalData.rental
     }
