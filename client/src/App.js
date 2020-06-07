@@ -6,8 +6,10 @@ import { checkAuthState } from './store/actions';
 import Header from './components/shared/Header';
 import RentalList from './components/Rental/RentalListing/RentalList';
 import RentalDetails from './components/Rental/RentalDetails/RentalDetails';
+import AuthRoute from './components/shared/AuthRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import BackOffice from './pages/BackOffice';
 
 import './App.css';
 
@@ -27,6 +29,7 @@ class App extends Component {
           <Route exact path="/rental/:id" component={RentalDetails} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
+          <AuthRoute path="/backoffice" component={BackOffice} />
         </div>
       </BrowserRouter>
     );

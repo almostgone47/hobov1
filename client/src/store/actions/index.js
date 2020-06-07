@@ -1,6 +1,8 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
+import { deleteAuthToken, getAuthToken } from '../../helpers/AuthToken';
+
 import { FETCH_RENTALS, FETCH_RENTAL, CURRENT_USER, ERRORS } from './types';
 
 export const setErrors = (errors) => {
@@ -68,17 +70,15 @@ export const loginUser = (userData, history) => {
 }
 
 export const logoutUser = () => {
-    localStorage.removeItem('hobov_token');
+    deleteAuthToken();
     return dispatch => {
         dispatch(setCurrentUser(null))
     }
 }
 
 export const checkAuthState = () => {
-    let token = localStorage.getItem('hobov_token') || null;
-    // check to make sure token has not expired, if it has make current_user null
+    let token = getAuthToken();
     return dispatch => {
-        token = token && new window.Date(jwt.decode(token).exp * 1000) > new window.Date() ? token : null;
         dispatch(setCurrentUser(jwt.decode(token)))
     }
 }

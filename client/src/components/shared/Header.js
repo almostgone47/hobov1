@@ -17,6 +17,7 @@ const Header = (props) => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav ml-auto">
+                        <Link to={"/backoffice"} className="nav-item nav-link">Management</Link>
                         { props.user ? 
                         <>
                             <div className="nav-item nav-link">Welcome {props.user.username}</div>
