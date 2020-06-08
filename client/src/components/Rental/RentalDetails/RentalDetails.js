@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import SimpleMap from '../../Map/GoogleMap';
+import Map from '../../Map/Map';
 import RentalInfo from './RentalInfo';
 import RentalAssets from './RentalAssets';
 import * as actions from '../../../store/actions';
@@ -22,10 +22,7 @@ export class RentalDetails extends Component {
                         <div className='col-md-6'>
                             <img src={rental.image} alt=''></img>
                         </div>
-                        <SimpleMap
-                            height='100'
-                            width='100'
-                        />
+                        <Map />
                     </div>
                 </div>
 
