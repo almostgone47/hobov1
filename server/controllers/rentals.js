@@ -17,6 +17,7 @@ exports.getRentalById = (req, res) => {
 
 exports.createRental = (req, res) => {
     const rentalData = req.body;
+    rentalData.owner = res.locals.user;
 
     Rental.create(rentalData, (err, rental) => {
         if (err) { return res.mongoError(err) }

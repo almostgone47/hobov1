@@ -6,23 +6,39 @@ import RentalInfo from './RentalInfo';
 import RentalAssets from './RentalAssets';
 import * as actions from '../../../store/actions';
 
-export class RentalDetails extends Component {
+class RentalDetails extends Component {
     
     componentDidMount() {
         const rentalId = this.props.match.params.id
         this.props.dispatch(actions.fetchRental(rentalId))
     }
 
+    componentDidUpdate() {
+        const inputAddress = `${this.props.rental.street}, ${this.props.rental.city}`;
+        const apiKey = 'XVGNGBASbRA59WTKYrsYHsLeeTZL0WqO' 
+        this.props.dispatch(actions.fetchRentalLocation(inputAddress, apiKey))
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(actions.resetRental())
+    }
+
     render() {
-        const rental = this.props.rental
+        const rental = this.props.rental;
+
         return (
             <section id='rentalDetails'>
                 <div className='upper-section'>
                     <div className='row'>
+
                         <div className='col-md-6'>
                             <img src={rental.image} alt=''></img>
                         </div>
-                        <Map />
+
+                        <div className='col-md-6'>
+                            <Map rental={rental} />
+                        </div>
+
                     </div>
                 </div>
 
@@ -32,9 +48,9 @@ export class RentalDetails extends Component {
                             <RentalInfo rental={rental}/>
                             <RentalAssets />
                         </div>
-                    <div className='col-md-4'> 
-                        BOOKING
-                    </div>
+                        <div className='col-md-4'> 
+                            BOOKING
+                        </div>
                     </div>
                 </div>
             </section>

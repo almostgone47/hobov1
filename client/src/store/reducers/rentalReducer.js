@@ -1,8 +1,9 @@
-import { FETCH_RENTALS, FETCH_RENTAL, ERRORS } from '../actions/types';
+import { FETCH_RENTALS, FETCH_RENTAL, FETCH_RENTAL_LOCATION, RESET_RENTAL, ERRORS } from '../actions/types';
 
 const initialState = {
     rentals: [],
     rental: {},
+    rentalLocation: '',
     errors: []
 }
 
@@ -17,6 +18,16 @@ const rentalReducer = (state = initialState, action) => {
             return {
                 ...state,
                 rental: action.rental
+            }
+        case FETCH_RENTAL_LOCATION:
+            return {
+                ...state,
+                rentalLocation: action.rentalLocation
+            }
+        case RESET_RENTAL:
+            return {
+                ...state,
+                rentalLocation: action.rentalLocation
             }
         case ERRORS:
                 return {

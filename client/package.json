@@ -13,9 +13,9 @@
     "font-awesome": "^4.7.0",
     "google-map-react": "^1.1.7",
     "jquery": "^3.5.1",
-    "node-sass-chokidar": "^1.2.2",
+    "node-sass": "^4.14.1",
     "npm-run-all": "^4.1.5",
-    "popper": "^1.0.1",
+    "popper.js": "^1.16.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^5.7.2",
@@ -26,12 +26,9 @@
     "titleize": "^2.1.0"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar ./src -o ./src",
-    "watch-css": "npm run build-css && node-sass-chokidar ./src -o ./src --watch --recursive",
-    "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js",
-    "build-js": "react-scripts build",
-    "build": "npm-run-all build-css build-js",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "heroku-postbuild": "npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

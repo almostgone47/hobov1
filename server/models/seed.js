@@ -1,10 +1,13 @@
+const mongoose = require('mongoose');
 const User = require('./user');
 const Rental = require('./rental');
+
+const user1Id = mongoose.Types.ObjectId();
+const user2Id = mongoose.Types.ObjectId();
 
 class FakeDb {
     constructor() {
         this.rentals = [{
-            id: 1,
             title: "Central Apartment",
             city: "New York",
             street: "Times Sqaure",
@@ -14,10 +17,10 @@ class FakeDb {
             description: "Very nice apartment",
             dailyRate: 34,
             shared: false,
+            owner: user1Id,
             createdAt: ""
         },
         {
-            id: 2,
             title: "Central Apartment 2",
             city: "San Francisco",
             street: "Main street",
@@ -27,10 +30,10 @@ class FakeDb {
             description: "Very nice apartment",
             dailyRate: 12,
             shared: true,
+            owner: user1Id,
             createdAt: ""
         },
         {
-            id: 3,
             title: "Central Apartment 3",
             city: "Bratislava",
             street: "Hlavna",
@@ -40,10 +43,10 @@ class FakeDb {
             description: "Very nice apartment",
             dailyRate: 334,
             shared: true,
+            owner: user2Id,
             createdAt: ""
         },
         {
-            id: 4,
             title: "Central Apartment 4",
             city: "Berlin",
             street: "Haupt strasse",
@@ -53,14 +56,17 @@ class FakeDb {
             description: "Very nice apartment",
             dailyRate: 33,
             shared: true,
+            owner: user2Id,
             createdAt: ""
         }]
         
         this.users = [{
+            _id: user1Id,
             username: "Test User",
             email: "test@gmail.com",
             password: "testtest"
           }, {
+            _id: user2Id,
             username: "Test User2",
             email: "test2@gmail.com",
             password: "testtest2"

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import { deleteAuthToken, getAuthToken } from '../../helpers/AuthToken';
 
-import { FETCH_RENTALS, FETCH_RENTAL, CURRENT_USER, ERRORS } from './types';
+import { FETCH_RENTALS, FETCH_RENTAL, FETCH_RENTAL_LOCATION, CURRENT_USER, RESET_RENTAL, ERRORS } from './types';
 
 export const setErrors = (errors) => {
     return {
@@ -33,6 +33,21 @@ export const setRental = (rental) => {
     }
 }
 
+export const setRentalLocation = (rentalLocation) => {
+    return {
+        type: FETCH_RENTAL_LOCATION,
+        rentalLocation
+    }
+}
+
+export const resetRental = () => {
+    return {
+        type: RESET_RENTAL,
+        rentalLocation: {}
+    }
+}
+
+
 export const fetchRentals = () => {
     return dispatch => {
         axios.get('/api/v1/rentals')
@@ -40,11 +55,18 @@ export const fetchRentals = () => {
             .catch(err => console.log('error getting rentals: ', err))
     }
 }
-export const fetchRental = id => {
+export const fetchRental = (id) => {
     return dispatch => {
         axios.get(`/api/v1/rentals/${id}`)
             .then(rental => dispatch(setRental(rental.data)))
             .catch(err => console.log('error getting rental: ', err))
+    }
+}
+export const fetchRentalLocation = (inputAddress, apiKey) => {
+    return dispatch => {
+        axios.get(`https://api.tomtom.com/search/2/geocode/${inputAddress}.JSON?key=${apiKey}`)
+            .then((res) => dispatch(setRentalLocation(res.data.results[0].position)))
+            .catch(err => console.log('error getting rental geolocation: ', err))
     }
 }
 

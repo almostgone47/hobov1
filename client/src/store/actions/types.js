@@ -1,4 +1,6 @@
 export const FETCH_RENTALS = 'FETCH_RENTALS';
 export const FETCH_RENTAL = 'FETCH_RENTAL';
+export const FETCH_RENTAL_LOCATION = 'FETCH_RENTAL_LOCATION';
+export const RESET_RENTAL = 'RESET_RENTAL';
 export const CURRENT_USER = 'CURRENT_USER';
 export const ERRORS = 'ERRORS';
