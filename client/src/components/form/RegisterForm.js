@@ -27,7 +27,9 @@ const RegisterForm = ({registerUser}) => {
             <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
-                    ref={register({required: true })}
+                    ref={register({
+                        required: "Email is required", 
+                        pattern: { value: EMAIL_PATTERN, message: "Invalid email format"} })}
                     name="email" 
                     type="email"
                     className="form-control"

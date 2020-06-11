@@ -4,11 +4,10 @@ import { getAuthToken } from '../../helpers/AuthToken';
 
 
 const AuthRoute = ({component: Component, ...rest}) => {
-    console.log('AUTHROUTE is there a token??? : ', getAuthToken())
 
   return (
     <Route {...rest} render={(props) => getAuthToken() ?
-       <Component {...rest} {...props}/> : <Redirect to={{pathname: '/login'}} />  } />
+       <Component {...rest} {...props} /> : <Redirect to={{pathname: '/login'}} />  } />
   )
 }
 

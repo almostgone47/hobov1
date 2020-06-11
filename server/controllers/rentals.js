@@ -16,6 +16,7 @@ exports.getRentalById = (req, res) => {
 }
 
 exports.createRental = (req, res) => {
+    console.log('YOU HAVE HIT THE CONTROLLER: ', res)
     const rentalData = req.body;
     rentalData.owner = res.locals.user;
 

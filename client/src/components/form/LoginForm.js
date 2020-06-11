@@ -18,7 +18,7 @@ const LoginForm = ({loginUser}) => {
                 <input
                     ref={register({
                         required: "Email is required", 
-                        pattern: {value: EMAIL_PATTERN, message: "Invalid email format"} })}
+                        pattern: { value: EMAIL_PATTERN, message: "Invalid email format"} })}
                     name="email" 
                     type="email"
                     className="form-control"

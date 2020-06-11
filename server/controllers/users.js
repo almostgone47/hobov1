@@ -54,7 +54,7 @@ exports.registerUser = (req, res) => {
 
 exports.onlyAuthUser = (req, res, next) => {
     const token = req.headers.authorization;
-
+    console.log('ONLY AUTH USERS: ', req.headers)
     if (token) {
         const decodedToken = parseToken(token);
         if (!decodedToken) { return notAuthorized(res) }
