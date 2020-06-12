@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3001;
 // Routes
 const rentalRoutes = require('./routes/rentals');
 const userRoutes = require('./routes/users');
+const bookingRoutes = require('./routes/bookings');
 
 //Models what happens if I don't require models?????????????????
 
@@ -31,6 +32,7 @@ app.get('/api/v1/secret', onlyAuthUser, (req, res) => {
 // API Routes
 app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/bookings', bookingRoutes);
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
