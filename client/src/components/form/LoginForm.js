@@ -43,7 +43,7 @@ const LoginForm = ({loginUser}) => {
             </div>
             <button 
             type="submit" 
-            className="btn btn-bwm-main">Submit</button>
+            className="btn btn-main">Submit</button>
         </form>
     )
 }

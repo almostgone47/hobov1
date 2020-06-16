@@ -112,7 +112,7 @@ const RentalForm = ({createNewRental}) => {
             </div>
             <button 
                 type="submit"
-                className="btn btn-bwm-main">Create
+                className="btn btn-main">Create
             </button>
         </form>
     );

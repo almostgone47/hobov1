@@ -5,6 +5,7 @@ import Map from '../../Map/Map';
 import RentalInfo from './RentalInfo';
 import RentalAssets from './RentalAssets';
 import * as actions from '../../../store/actions';
+import Booking from '../../Booking/Booking';
 
 class RentalDetails extends Component {
     
@@ -24,7 +25,7 @@ class RentalDetails extends Component {
     }
 
     render() {
-        const rental = this.props.rental;
+        const { rental } = this.props;
 
         return (
             <section id='rentalDetails'>
@@ -49,7 +50,7 @@ class RentalDetails extends Component {
                             <RentalAssets />
                         </div>
                         <div className='col-md-4'> 
-                            BOOKING
+                            <Booking rental={rental}/>
                         </div>
                     </div>
                 </div>

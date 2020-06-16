@@ -4,13 +4,11 @@ import tt from '@tomtom-international/web-sdk-maps';
 import './Map.scss';
  
 const Map = (props) => {
-  const markerDiv = document.createElement('div');
-  markerDiv.className = 'hobov-marker';
+  
   
   useEffect(() => {
     const lat = props.rentalLocation.lat || 1;
     const lon = props.rentalLocation.lon || 1;
-    console.log('MAP PROPS: ', props, 'LAT: ', lat, 'LON: ', lon)
     const map = tt.map({
       key: 'XVGNGBASbRA59WTKYrsYHsLeeTZL0WqO',
       container: 'map',
@@ -18,10 +16,12 @@ const Map = (props) => {
       center: [lon, lat],
       zoom: 10
     });
+    const markerDiv = document.createElement('div');
+    markerDiv.className = 'hobov-marker';
     new tt.Marker({
       element: markerDiv
     }).setLngLat([lon, lat]).addTo(map);
-    new tt.Popup({className: 'hobov-popup'}).setLngLat([lon, lat]).setHTML(`<p>RENT THIS PLACE</p>`).addTo(map);
+    // new tt.Popup({className: 'hobov-popup'}).setLngLat([lon, lat]).setHTML(`<p>RENT THIS PLACE</p>`).addTo(map);
     map.addControl(new tt.FullscreenControl());
     map.addControl(new tt.NavigationControl());
   }, [props])
