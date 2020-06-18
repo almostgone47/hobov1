@@ -3,9 +3,9 @@ const router = express.Router();
 const controllers = require('../controllers/bookings');
 const { onlyAuthUser } = require('../controllers/users');
 
-// router.get('', controllers.getBookings);
+router.get('', controllers.getBookings);
 
-// router.get('/:id', controllers.getBookingById);
+router.get('/:bookingId', controllers.getBooking);
 
 router.post('/new', onlyAuthUser,  controllers.createBooking);
 

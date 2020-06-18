@@ -1,5 +1,7 @@
 import React from 'react';
 import { useForm, ErrorMessage } from 'react-hook-form';
+import { connect } from 'react-redux';
+import { resetErrors } from '../../store/actions';
 
 const Error = ({children}) => {
    return <div className="alert alert-danger">{children}</div>
@@ -7,12 +9,12 @@ const Error = ({children}) => {
 
 const EMAIL_PATTERN = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const LoginForm = ({loginUser}) => {
+const LoginForm = (props) => {
 
     const { register, handleSubmit, errors } = useForm();
-    
+    console.log('THIS IS FROM THE LOGING FORM: ERRORS: ', errors, 'PROPS: ', props)
     return (
-        <form onSubmit={handleSubmit(loginUser)}>
+        <form onSubmit={handleSubmit(props.loginUser)}>
             <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
@@ -24,7 +26,7 @@ const LoginForm = ({loginUser}) => {
                     className="form-control"
                     id="email"
                     />
-                    <ErrorMessage as={<Error />} errors={errors} name="email">
+                    <ErrorMessage as={<Error />} errors={props.errors} name="email">
                         {({message}) => <p>{message}</p>}
                     </ErrorMessage>
             </div>
@@ -37,15 +39,22 @@ const LoginForm = ({loginUser}) => {
                     className="form-control"
                     id="password"
                     />
-                    <ErrorMessage as={<Error />} errors={errors} name="password">
-                    {({message}) => <p>{message}</p>}
+                    <ErrorMessage as={<Error />} errors={props.errors} name="password">
+                        {({message}) => <p>{message}</p>}
                     </ErrorMessage>
             </div>
-            <button 
-            type="submit" 
-            className="btn btn-main">Submit</button>
+            <button
+                onClick={() => props.dispatch(resetErrors())} 
+                type="submit" 
+                className="btn btn-main">Submit</button>
         </form>
     )
 }
 
-export default LoginForm
+const mapStateToProps = state => {
+    return {
+        errors: state.errorData.errors
+    }
+}
+
+export default connect(mapStateToProps)(LoginForm);

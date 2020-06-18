@@ -3,16 +3,10 @@ import jwt from 'jsonwebtoken';
 
 import { deleteAuthToken, getAuthToken } from '../../helpers/AuthToken';
 
-import { CURRENT_USER, ERRORS } from './types';
+import { CURRENT_USER } from './types';
+import { setErrors } from './errors';
 
-export const setErrors = (errors) => {
-    return {
-        type: ERRORS,
-        errors
-    }
-}
-
-export const setCurrentUser = (currentUser) => {
+export const setCurrentUser = currentUser => {
     return {
         type: CURRENT_USER,
         currentUser

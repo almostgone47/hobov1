@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginForm from '../components/form/LoginForm';
-import * as actions from '../store/actions';
+import { loginUser } from '../store/actions';
 import { connect } from 'react-redux';
 import Errors from '../components/shared/Errors';
 
@@ -11,7 +11,7 @@ const Login = (props) => {
             <div className="row">
                 <div className="col-md-5">
                     <h1 className="page-title">Login</h1>
-                    <LoginForm loginUser={(userData) => props.dispatch(actions.loginUser(userData, props.history))} />
+                    <LoginForm loginUser={(userData) => props.dispatch(loginUser(userData, props.history))} />
                     { props.errors ? <Errors errors={props.errors} /> : '' }
                 </div>
                 <div className="col-md-6 ml-auto">
@@ -27,7 +27,7 @@ const Login = (props) => {
 
 const mapStateToProps = state => {
     return {
-        errors: state.rentalData.errors
+        errors: state.errorData.errors
     }
 }
 

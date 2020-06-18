@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import RentalForm from '../components/form/RentalForm';
-import { newRental } from '../store/actions/index';
 import { connect } from 'react-redux';
+
+import { newRental } from '../store/actions/index';
+import Errors from '../components/shared/Errors';
 
 export class RentalNew extends Component {
 
     createNewRental(rentalData) {
-        newRental(rentalData)
+        this.props.dispatch(newRental(rentalData))
     }
     
     render() {
@@ -17,11 +19,7 @@ export class RentalNew extends Component {
                     <div className="col-md-5">
                         <h1 className="page-title">Create Rental</h1>
                         <RentalForm createNewRental={this.createNewRental} />
-                        {/* <div>
-                        <p>
-                            Some Errors
-                        </p>
-                        </div> */}
+                        { this.props.errors ? <Errors errors={this.props.errors} /> : '' }
                     </div>
                     <div className="col-md-6 ml-auto">
                         <div className="image-container">
@@ -38,7 +36,7 @@ export class RentalNew extends Component {
 
 const mapStateToProps = state => {
     return {
-
+        errors: state.errorData.errors
     }
 }
 

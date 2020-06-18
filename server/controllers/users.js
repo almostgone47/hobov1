@@ -7,14 +7,14 @@ exports.loginUser = (req, res) => {
     const { email, password } = req.body;
     
     if (!email || !password) {
-        return res.status(422).send({errors: [{title: 'Missing data', details: 'Missing email or password'}]})
+        return res.status(422).send({ errors: [{title: 'Missing data', details: 'Missing email or password'}]})
     }
 
     User.findOne({email}, (err, existingUser) => {
         if (err) { return res.mongoError(err)}
 
         if (!existingUser) {
-            return res.status(422).send({errors: [{ title: 'Invalid email', details: 'User with this email does not exist' }]})
+            return res.status(422).send({ errors: [{ title: 'Invalid email', details: 'User with this email does not exist' }]})
         }
 
         if (existingUser.hasSamePassword(password)) {
@@ -24,7 +24,7 @@ exports.loginUser = (req, res) => {
             }, config.JWT_SECRET, { expiresIn: '24h' })
             return res.json(token);
         } else {
-            return res.status(422).send({errors: [{ title: 'DB Error', details: 'Incorrect Password' }] })
+            return res.status(422).send({ errors: [{ title: 'DB Error', details: 'Incorrect Password' }] })
         }
     })
 }
@@ -32,22 +32,22 @@ exports.loginUser = (req, res) => {
 exports.registerUser = (req, res) => {
     const { username, email, password, passwordConfirmation } = req.body;
     if (!email || !password || !username) {
-        return res.status(422).send({errors: [{title: 'Missing data', details: 'Email,username and password are required'}]})
+        return res.status(422).send({ errors: [{title: 'Missing data', details: 'Email,username and password are required' }] })
     }
     
     if (password !== passwordConfirmation) {
-        return res.status(422).send({errors: [{title: 'Cannot confirm password', details: 'Password Confirmation does not match password'}]})
+        return res.status(422).send({ errors: [{title: 'Cannot confirm password', details: 'Password Confirmation does not match password' }] })
     }
     User.findOne({email}, (err, existingUser) => {
-        if (err) { return res.mongoError(err)}
+        if (err) { return res.mongoError(err) }
         
         if (existingUser) {
             return res.status(422).send({errors: [{ title: 'Invalid email', details: 'User email already exists' }]})
         }
         const user = new User({ username, email, password });
         user.save((err) => {
-            if (err) { return res.mongoError(err)}
-            return res.json({status: 'Successfully registered user!'})
+            if (err) { return res.mongoError(err) }
+            return res.json({ status: 'Successfully registered user!' })
         })
     })
 }

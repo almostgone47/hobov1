@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
-import 'react-responsive-modal/styles.css';
+import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-responsive-modal';
+import { useDispatch } from 'react-redux';
+
+import { resetErrors } from '../../store/actions';
 
 const HobovModal = ({title = "Modal Window", children, openBtn, onSubmit }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(resetErrors());
+    }, [isOpen]);
 
     return (
         <>  

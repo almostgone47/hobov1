@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import RentalListing from './RentalListing';
 import { connect } from 'react-redux';
 
-import * as actions from '../../../store/actions';
+import { fetchRentals } from '../../../store/actions';
 
 
 class RentalList extends Component {
 
     componentDidMount() {
-        this.props.dispatch(actions.fetchRentals())
+        this.props.dispatch(fetchRentals())
     }
 
     render() {
@@ -23,7 +23,7 @@ class RentalList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        rentals: state.rentalData.rentals
+        rentals: state.rentalData.rentals,
     }
 }
 

@@ -92,3 +92,18 @@
     }
   }
 }
+
+.daterangepicker td.in-range {
+  background-color: $main-color !important;
+  opacity: 0.3;
+}
+
+.daterangepicker td.active {
+  background-color: $main-color !important;
+  opacity: 1;
+}
+
+.applyBtn {
+  background-color: $main-color !important;
+  border: none;
+}

@@ -12,11 +12,10 @@ exports.getRentalById = (req, res) => {
     Rental.findById(id, (err, rental) => {
         if (err) { return res.mongoError(err) }
         res.json(rental)
-    })
+    }).populate('owner', '-password -_id');
 }
 
 exports.createRental = (req, res) => {
-    console.log('YOU HAVE HIT THE CONTROLLER: ', res)
     const rentalData = req.body;
     rentalData.owner = res.locals.user;
 

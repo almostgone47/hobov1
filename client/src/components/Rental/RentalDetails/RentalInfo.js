@@ -1,10 +1,17 @@
 import React from 'react';
 import { toUpperCase, rentalType } from '../../../helpers';
+import { connect } from 'react-redux';
 
 const RentalInfo = ({rental}) => {
     return (
         <div className='rental'>
             <h2 className={`rental-type ${rental.category}`}>{rentalType(rental.shared)} {rental.category}</h2>
+            { rental.owner &&
+                <div className="rental-owner">
+                    <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="owner"/>
+                    <span>{rental.owner.username}</span>
+                </div>
+            }
             <h1 className='rental-title'>{rental.title}</h1>
             <h2 className='rental-city'>{toUpperCase(rental.city)}</h2>
             <div className='rental-room-info'>
@@ -19,4 +26,10 @@ const RentalInfo = ({rental}) => {
     );
 };
 
-export default RentalInfo;
+const mapStateToProps = state => {
+    return {
+        rental: state.rentalData.rental,
+    }
+}
+
+export default connect(mapStateToProps)(RentalInfo);

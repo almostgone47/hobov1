@@ -1,29 +1,34 @@
 const Booking = require('../models/booking');
 
-exports.getBookings = async (req, res) => {
-    const rentalId = req.query.params;
-    console.log('RENTAL ID: ', rentalId)
-    const bookings = await Booking.find({rental: rentalId});
-    console.log('GET BOOKINGS: ', bookings)
+exports.getBooking = (req, res) => {
+    Booking.find({booking: req.query.bookingId})
+        .then(booking => res.send(booking))
+        .catch(err => res.status(422).send({errors: [{title: 'Invalid Dates', details: 'Could not retreive the requested booking.'}] }))
 }
+
+exports.getBookings = (req, res) => {
+    Booking.find({rental: req.query.rentalId})
+        .then(bookings => res.send(bookings))
+        .catch(err => res.status(422).send({errors: [{title: 'Invalid Dates', details: 'Could not retrieve the requested bookings.'}] }));
+};
 
 exports.createBooking = async (req, res) => {
     const bookingData = req.body
     const newBooking = new Booking(bookingData);
     newBooking.user = res.locals.user;
-console.log('creating new BOOKING: ', newBooking)
     if (!checkValidBookingDates(newBooking)) {
-        return res.json({message: 'The dates requested are invalid dates.'})
+        return res.status(422).send({errors: [{title: 'Invalid Dates', details: 'The dates requested are invalid dates.'}] });
     };
-
+    
     try {
         const bookings = await Booking.find({rental: newBooking.rental})
         const isValid = checkAvailability(newBooking, bookings);
         if (isValid) {
             const savedBooking = await newBooking.save();
-            return res.json({ startAt: savedBooking.startAt, endAt: savedBooking.endAt })
+            const allBookings = bookings.concat(savedBooking)
+            return res.json({ bookings: allBookings })
         } else {
-            return res.json({ message: 'These dates are already booked. Please try different dates.'})
+            return res.status(422).send({errors: [{title: 'Dates Unvailable', details: 'These dates are already booked. Please try different dates.'}]})
         }
     } catch (err) {
         return res.mongoError(err)

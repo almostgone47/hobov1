@@ -1,8 +1,7 @@
-import { CURRENT_USER, ERRORS } from '../actions/types';
+import { CURRENT_USER } from '../actions/types';
 
 const initialState = {
     currentUser: null,
-    errors: []
 }
 
 const authReducer = (state = initialState, action) => {
@@ -12,11 +11,6 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 currentUser: action.currentUser
             }
-        case ERRORS:
-                return {
-                    ...state,
-                    errors: action.errors
-                }
         default:
             return state
     }

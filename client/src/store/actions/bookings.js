@@ -1,16 +1,50 @@
 import axios from 'axios';
 import { getAuthConfig } from '../../helpers/AuthToken';
+import { FETCH_BOOKING, FETCH_BOOKINGS, RESET_BOOKINGS } from '../actions/types';
+import { setErrors } from './errors';
+
+export const setBookings = bookings => {
+    return {
+        type: FETCH_BOOKINGS,
+        bookings
+    }
+}
+
+export const resetBookings = bookings => {
+    return {
+        type: RESET_BOOKINGS,
+        bookings
+    }
+}
+
+export const setBooking = booking => {
+    return {
+        type: FETCH_BOOKING,
+        booking
+    }
+}
 
 export const createBooking = booking => {
     const config = getAuthConfig()
-    return axios.post('/api/v1/bookings/new', booking, config)
-        .then(res => res.data)
-        .catch(err => console.log('Error creating new booking: ', err))
+    return dispatch => {
+        axios.post('/api/v1/bookings/new', booking, config)
+            .then(res => dispatch(setBookings(res.data.bookings)))
+            .catch(err => dispatch(setErrors(err.response.data.errors)))
+    }
 }
 
 export const getBookings = rentalId => {
-    console.log('getBookings ACTION: ', rentalId)
-    return axios.get(`/api/v1/bookings?${rentalId}`)
-        .then(res => res.data)
-        .catch(err => console.log('Error getting bookings: ', err))
+    return dispatch => {
+        axios.get(`/api/v1/bookings?rentalId=${rentalId}`)
+            .then(res => dispatch(setBookings(res.data)))
+            .catch(err => dispatch(setErrors(err.response.data.errors)))
+    }
+}
+
+export const getBooking = bookingId => {
+    return dispatch => {
+        axios.get(`/api/v1/bookings?rentalId=${bookingId}`)
+            .then(res => dispatch(setBooking(res.data)))
+            .catch(err => dispatch(setErrors(err.response.data.errors)))
+    }
 }
