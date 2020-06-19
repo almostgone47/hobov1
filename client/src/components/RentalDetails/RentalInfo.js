@@ -1,5 +1,5 @@
 import React from 'react';
-import { toUpperCase, rentalType } from '../../../helpers';
+import { toUpperCase, rentalType } from '../../helpers';
 import { connect } from 'react-redux';
 
 const RentalInfo = ({rental}) => {

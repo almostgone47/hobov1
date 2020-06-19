@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { rentalType } from '../../../helpers/index';
+import { rentalType } from '../../helpers/index';
 
 const RentalCard = ({rental}) => {
     return (
         <div className={rental.colNum}>
             <Link className="rental-detail-link" to={`/rental/${rental._id}`}>
-                <div className='card bwm-card'>
+                <div className='card hobov-card'>
                     <img className='card-img-top' src={rental.image} alt='rental' />
                     <div className='card-block'>
                         <h6 className={`card-subtitle ${rental.category}`}>{ rentalType(rental.shared) } { rental.category }&#183; {rental.city}</h6>

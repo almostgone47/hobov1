@@ -1,5 +1,5 @@
 import React from 'react';
-import RegisterForm from '../components/form/RegisterForm';
+import RegisterForm from '../components/forms/RegisterForm';
 import * as actions from '../store/actions';
 import Errors from '../components/shared/Errors';
 import { connect } from 'react-redux';
@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 const Register = (props) => {
 
     return (
-        <div className="bwm-form">
+        <div className="hobov-form">
             <div className="row">
                 <div className="col-md-5">
                     <h1 className="page-title">Register</h1>

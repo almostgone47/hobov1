@@ -1,7 +1,9 @@
 const Rental = require('../models/rental');
 
 exports.getRentals = (req, res) => {
-    Rental.find({}, (err, rentals) => {
+    const query = req.query.city ? {city: req.query.city.toLowerCase()} : {};
+
+    Rental.find(query, (err, rentals) => {
         if (err) { return res.mongoError(err) }
         res.json(rentals)
     })
@@ -9,6 +11,7 @@ exports.getRentals = (req, res) => {
 
 exports.getRentalById = (req, res) => {
     let id = req.params.id;
+
     Rental.findById(id, (err, rental) => {
         if (err) { return res.mongoError(err) }
         res.json(rental)

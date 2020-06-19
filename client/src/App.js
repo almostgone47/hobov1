@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { checkAuthState } from './store/actions';
-import Header from './components/shared/Header';
-import RentalList from './components/Rental/RentalListing/RentalList';
-import RentalDetails from './components/Rental/RentalDetails/RentalDetails';
+import { checkAuthState, fetchRentals } from './store/actions';
 import AuthRoute from './components/shared/AuthRoute';
+import Header from './components/shared/Header';
+import RentalList from './pages/RentalList';
+import RentalDetails from './pages/RentalDetails';
 import RentalNew from './pages/RentalNew';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -16,7 +16,8 @@ import Profile from './pages/Profile';
 class App extends Component {
 
   componentDidMount() {
-    this.props.dispatch(checkAuthState())
+    this.props.dispatch(checkAuthState());
+    this.props.dispatch(fetchRentals());
   }
 
   render() {

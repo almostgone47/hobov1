@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm from '../components/form/LoginForm';
+import LoginForm from '../components/forms/LoginForm';
 import { loginUser } from '../store/actions';
 import { connect } from 'react-redux';
 import Errors from '../components/shared/Errors';
@@ -7,7 +7,7 @@ import Errors from '../components/shared/Errors';
 const Login = (props) => {
 
     return (
-        <div className="bwm-form">
+        <div className="hobov-form">
             <div className="row">
                 <div className="col-md-5">
                     <h1 className="page-title">Login</h1>

@@ -1,9 +1,10 @@
-import { FETCH_RENTALS, FETCH_RENTAL, FETCH_RENTAL_LOCATION, RESET_RENTAL } from '../actions/types';
+import { FETCH_RENTALS, FETCH_RENTAL, FETCH_RENTAL_LOCATION, RESET_RENTAL, SEARCH_RENTALS } from '../actions/types';
 
 const initialState = {
     rentals: [],
     rental: {},
     rentalLocation: '',
+    searchInput: ''
 }
 
 const rentalReducer = (state = initialState, action) => {
@@ -12,6 +13,11 @@ const rentalReducer = (state = initialState, action) => {
             return {
                 ...state,
                 rentals: action.rentals
+            }
+        case SEARCH_RENTALS:
+            return {
+                ...state,
+                searchInput: action.searchInput
             }
         case FETCH_RENTAL:
             return {
