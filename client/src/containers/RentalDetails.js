@@ -5,6 +5,7 @@ import Map from '../components/Map/Map';
 import RentalInfo from '../components/RentalDetails/RentalInfo';
 import RentalAssets from '../components/RentalDetails/RentalAssets';
 import Booking from '../components/Booking/Booking';
+import Layout from '../Layout/Layout';
 import { fetchRental, fetchRentalLocation, resetRental } from '../store/actions';
 
 class RentalDetails extends Component {
@@ -27,33 +28,35 @@ class RentalDetails extends Component {
     render() {
         const { rental } = this.props;
         return (
-            <section id='rentalDetails'>
-                <div className='upper-section'>
-                    <div className='row'>
+            <Layout>
+                <section id='rentalDetails'>
+                    <div className='upper-section'>
+                        <div className='row'>
 
-                        <div className='col-md-6'>
-                            <img src={rental.image} alt=''></img>
-                        </div>
+                            <div className='col-md-6'>
+                                <img src={rental.image} alt=''></img>
+                            </div>
 
-                        <div className='col-md-6'>
-                            <Map rental={rental} />
-                        </div>
+                            <div className='col-md-6'>
+                                <Map rental={rental} />
+                            </div>
 
-                    </div>
-                </div>
-
-                <div className='details-section'>
-                    <div className='row'>
-                        <div className='col-md-8'>
-                            <RentalInfo />
-                            <RentalAssets />
-                        </div>
-                        <div className='col-md-4'> 
-                            <Booking />
                         </div>
                     </div>
-                </div>
-            </section>
+
+                    <div className='details-section'>
+                        <div className='row'>
+                            <div className='col-md-8'>
+                                <RentalInfo />
+                                <RentalAssets />
+                            </div>
+                            <div className='col-md-4'> 
+                                <Booking />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </Layout>
         )
     }
 }

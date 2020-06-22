@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logoutUser, fetchRentals, createBooking } from '../../store/actions/index';
+import { logoutUser, fetchRentals } from '../../store/actions/index';
 
 class Header extends Component {
 
@@ -17,11 +17,11 @@ class Header extends Component {
 
     searchHandler(e, cb) {
         e.preventDefault();
-        this.props.dispatch(fetchRentals(this.state.search))
-        cb()
+        this.props.dispatch(fetchRentals(this.state.search));
+        cb();
     }
 
-    clearSearchHandler() {
+    clearSearchHandler = () => {
         this.setState({
             search: ''
         })
@@ -31,12 +31,10 @@ class Header extends Component {
         return (
             <nav className="navbar navbar-dark navbar-expand-lg">
                 <div className="container">
-                    <Link 
-                        to={"/rentals"} 
-                        className="navbar-brand"
-                        onClick={e => this.searchHandler(e, this.clearSearchHandler.bind(this))}
-                    >Hobov</Link>
-                    <form onSubmit={e => this.searchHandler(e, this.clearSearchHandler.bind(this))} className="form-inline my-2 my-lg-0">
+                    <div onClick={e => this.searchHandler(e, this.clearSearchHandler)}>
+                        <Link to={"/rentals"} className="navbar-brand" >Hobov</Link>
+                    </div>
+                    <form onSubmit={e => this.searchHandler(e, this.clearSearchHandler)} className="form-inline my-2 my-lg-0">
                         <input 
                             onChange={e => this.changeHandler(e)}
                             name="search"
@@ -65,9 +63,14 @@ class Header extends Component {
                         <div className="navbar-nav ml-auto">
                             { this.props.user ? 
                             <>
-                                <Link to={"/profile"} className="nav-item nav-link">My Profile</Link>
-                                <Link to={"/rentalnew"} className="nav-item nav-link">New Rental</Link>
-                                <div className="nav-item nav-link">Welcome {this.props.user.username}</div>
+                                <li className="nav-item dropdown">
+                                    <a  href="#" className="nav-item nav-link dropdown-toggle" role="button"     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome {this.props.user.username}</a>
+                                    <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <Link to={"/profile"} className="dropdown-item">My Profile</Link>
+                                        <Link to={"/property"} className="dropdown-item">My Property</Link>
+                                        <Link to={"/rentalnew"} className="dropdown-item">+ Add a New Rental</Link>
+                                    </div>
+                                </li>
                                 <div onClick={() => this.props.dispatch(logoutUser())} className="nav-item nav-link">Logout</div>
                             </> : 
                             <>

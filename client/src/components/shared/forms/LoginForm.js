@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm, ErrorMessage } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { resetErrors } from '../../store/actions';
+import { resetErrors } from '../../../store/actions';
 
 const Error = ({children}) => {
    return <div className="alert alert-danger">{children}</div>

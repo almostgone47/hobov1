@@ -7,6 +7,8 @@ router.get('', controllers.getRentals);
 
 router.get('/:id', controllers.getRentalById);
 
-router.post('/new', onlyAuthUser,  controllers.createRental);
+router.post('/new', onlyAuthUser, controllers.createRental);
+
+router.delete('/:id', onlyAuthUser, controllers.deleteRental);
 
 module.exports = router;

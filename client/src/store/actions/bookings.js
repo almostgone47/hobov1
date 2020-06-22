@@ -43,7 +43,7 @@ export const getBookings = rentalId => {
 
 export const getBooking = bookingId => {
     return dispatch => {
-        axios.get(`/api/v1/bookings?rentalId=${bookingId}`)
+        axios.get(`/api/v1/bookings?bookingId=${bookingId}`)
             .then(res => dispatch(setBooking(res.data)))
             .catch(err => dispatch(setErrors(err.response.data.errors)))
     }
