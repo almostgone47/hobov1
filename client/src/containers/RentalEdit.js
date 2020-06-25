@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Map from '../components/Map/Map';
 import RentalInfo from '../components/Rental/RentalInfo';
 import RentalAssets from '../components/Rental/RentalAssets';
-import Booking from '../components/Booking/Booking';
 import Layout from '../Layout/Layout';
 import {
   fetchRental,
@@ -50,9 +49,6 @@ class RentalDetails extends Component {
               <div className="col-md-8">
                 <RentalInfo />
                 <RentalAssets />
-              </div>
-              <div className="col-md-4">
-                <Booking />
               </div>
             </div>
           </div>

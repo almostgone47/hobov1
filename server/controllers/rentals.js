@@ -25,6 +25,54 @@ exports.getRentalById = (req, res) => {
   }).populate('owner', '-password -_id');
 };
 
+// gets all rentals that belong to a user
+exports.getUserRentals = (req, res) => {
+  const { user } = res.locals;
+
+  Rental.find({ owner: user.id })
+    .populate('owner', '-password')
+    .then((rentals) => res.send(rentals))
+    .catch(() =>
+      res.status(422).send({
+        errors: [
+          {
+            title: 'Rentals Not Found',
+            details:
+              'Could not retreive the requested rentals with user id provided.',
+          },
+        ],
+      })
+    );
+};
+
+// edits a rental
+exports.updateRental = async (req, res) => {
+  const rentalId = req.params.id;
+  const rentalData = req.body;
+  const user = res.locals.user;
+
+  try {
+    const rental = await Rental.findById(rentalId).populate('owner');
+
+    if (rental.owner.id !== user.id) {
+      return res.status(422).send({
+        errors: [
+          {
+            title: 'You are not the owner of this rental',
+            details: 'Only the owner of a rental can edit rental details.',
+          },
+        ],
+      });
+    } else {
+      rental.set(rentalData);
+      await rental.save();
+      res.status(200).send(rental);
+    }
+  } catch (err) {
+    return res.mongoError(err);
+  }
+};
+
 // creates one new rental
 exports.createRental = (req, res) => {
   const rentalData = req.body;
@@ -38,6 +86,7 @@ exports.createRental = (req, res) => {
   });
 };
 
+// deletes a rental if the rental has no future bookings and the user is the owner of the rental
 exports.deleteRental = async (req, res) => {
   const rentalId = req.params.id;
   const { user } = res.locals;
@@ -78,5 +127,30 @@ exports.deleteRental = async (req, res) => {
         },
       ],
     });
+  }
+};
+
+// verifies owner of rental is same as logged in
+exports.verifyUser = async (req, res) => {
+  const { user } = res.locals;
+  const { rentalId } = req.params;
+
+  try {
+    const rental = await Rental.findById(rentalId).populate('owner');
+
+    if (rental.owner.id !== user.id) {
+      return res.send({
+        errors: [
+          {
+            title: 'Invalid User',
+            detail: 'You are not owner of this rental!',
+          },
+        ],
+      });
+    }
+
+    return res.json({ status: 'verified' });
+  } catch (error) {
+    return res.mongoError(error);
   }
 };

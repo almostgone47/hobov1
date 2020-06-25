@@ -1,8 +1,10 @@
+const Rental = require('../models/rental');
 const Booking = require('../models/booking');
 const moment = require('moment');
+const booking = require('../models/booking');
 
 // gets all bookings for availability
-exports.getBookings = (req, res) => {
+exports.getBookingAvailability = (req, res) => {
   const rental = req.query.rentalId;
 
   Booking.find({ rental })
@@ -40,6 +42,48 @@ exports.getUserBookings = (req, res) => {
     );
 };
 
+// gets all bookings that belong to a rental property
+exports.getRentalBookings = (req, res) => {
+  const rentalId = req.params.id;
+
+  Booking.find({ rental: rentalId })
+    .populate('user', '-password')
+    .then((booking) => res.send(booking))
+    .catch(() =>
+      res.status(422).send({
+        errors: [
+          {
+            title: 'Invalid Dates',
+            details: 'Could not retreive the requested rental bookings.',
+          },
+        ],
+      })
+    );
+};
+
+// gets all bookings that belong to a rental property
+exports.getAllRentalOwnersBookings = async (req, res) => {
+  const { user } = res.locals;
+  const rentals = await Rental.find({ owner: user })
+    .populate('owner')
+    .select('_id');
+  const bookings = await Booking.find({ rental: rentals })
+    .populate('rental', 'title')
+    .populate('user');
+  try {
+    return res.send(bookings);
+  } catch (err) {
+    return res.status(422).send({
+      errors: [
+        {
+          title: 'Invalid Dates',
+          details: 'Could not retreive the requested rental bookings.',
+        },
+      ],
+    });
+  }
+};
+
 // gets a single booking by the booking's id
 exports.getBooking = (req, res) => {
   const bookingId = req.params.id;
@@ -60,37 +104,21 @@ exports.getBooking = (req, res) => {
     );
 };
 
-// gets all bookings that belong to a rental property
-exports.getRentalBookings = (req, res) => {
-  const rentalId = req.params.id;
-
-  Booking.find({ rental: rentalId })
-    .populate('user', '-password')
-    .then((booking) => res.send(booking))
-    .catch(() =>
-      res.status(422).send({
-        errors: [
-          {
-            title: 'Invalid Dates',
-            details: 'Could not retreive the requested rental bookings.',
-          },
-        ],
-      })
-    );
-};
-
 // finds a single booking, checks that only the owner of the booking is able to delete booking and checks that the booking is not within the rental's required cancellation time, then deletes it
 exports.deleteBooking = async (req, res) => {
-  const CANCELLATION_DAYS = 3;
+  const CANCELLATION_DAYS = 1;
   const bookingId = req.params.id;
   const { user } = res.locals;
   try {
     const booking = await Booking.findById(bookingId).populate('user');
-
     if (user.id !== booking.user.id) {
       return res.status(422).send({
-        title: 'Ivalid User',
-        details: 'Only the owner of this booking can delete it',
+        errors: [
+          {
+            title: 'Ivalid User',
+            details: 'Only the owner of this booking can delete it',
+          },
+        ],
       });
     }
 
@@ -98,9 +126,14 @@ exports.deleteBooking = async (req, res) => {
       await booking.remove();
       return res.json({ id: bookingId });
     } else {
-      return res
-        .status(422)
-        .send('Booking cannont be deleted unless more than 3 days prior');
+      return res.status(422).send({
+        errors: [
+          {
+            title: 'Cannot Cancel Inside Cancellation Days',
+            details: `Booking cannont be deleted unless more than ${CANCELLATION_DAYS} days prior`,
+          },
+        ],
+      });
     }
   } catch (err) {
     return res.status(422).send({
@@ -111,6 +144,36 @@ exports.deleteBooking = async (req, res) => {
         },
       ],
     });
+  }
+};
+
+// edits a booking
+exports.updateBooking = async (req, res) => {
+  const bookingId = req.params.id;
+  const bookingData = req.body;
+  const user = res.locals.user;
+
+  try {
+    const booking = await (
+      await Booking.findById(bookingId).populate('user', '-password')
+    ).populated('rental');
+
+    if (booking.rental.id !== user.id || booking.user.id !== user.id) {
+      return res.status(422).send({
+        errors: [
+          {
+            title: 'You are not the owner of this booking',
+            details: 'Only the owner of a booking can edit booking details.',
+          },
+        ],
+      });
+    } else {
+      booking.set(bookingData);
+      await booking.save();
+      res.status(200).send(booking);
+    }
+  } catch (err) {
+    return res.mongoError(err);
   }
 };
 
