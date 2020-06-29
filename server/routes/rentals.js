@@ -22,6 +22,6 @@ router.post('/new', onlyAuthUser, controllers.createRental);
 router.delete('/:id', onlyAuthUser, controllers.deleteRental);
 
 // checks rental owner is same as logged in
-router.get('/:rentalId/verify-user', onlyAuthUser, controllers.verifyUser);
+router.get('/:id/verify-user', onlyAuthUser, controllers.verifyUser);
 
 module.exports = router;

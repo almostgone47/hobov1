@@ -7,6 +7,7 @@ import { capitalize, formatDate } from '../../helpers';
 
 const BookingList = (props) => {
   const { bookings } = props;
+
   return (
     <div>
       <section className="booking-listing">

@@ -36,7 +36,7 @@ class App extends Component {
         <AuthRoute path="/profile" component={UserProfile} />
         <AuthRoute path="/backoffice" component={BackOffice} />
         <AuthRoute path="/rentalnew" component={RentalNew} />
-        <AuthRoute path="/rentals/:id/edit" component={RentalEdit} />
+        <AuthRoute path="/rental/:id/edit" component={RentalEdit} />
       </BrowserRouter>
     );
   }

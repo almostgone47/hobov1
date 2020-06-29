@@ -61,6 +61,11 @@ export const resetRentals = () => {
   };
 };
 
+export const verifyRentalOwner = (rentalId) => {
+  const config = getAuthConfig();
+  return axios.get(`/api/v1/rentals/${rentalId}/verify-user`, config);
+};
+
 export const newRental = (newRentalData) => {
   const config = getAuthConfig();
 
@@ -68,18 +73,18 @@ export const newRental = (newRentalData) => {
     axios
       .post('/api/v1/rentals/new', newRentalData, config)
       .then((rental) => dispatch(setRental(rental.data)))
-      .catch((err) => dispatch(setErrors(err.response.data.errors || [])));
+      .catch((err) => dispatch(setErrors(err.response.data.errors)));
   };
 };
 
 export const editRental = (rentalData, rentalId) => {
   const config = getAuthConfig();
-  console.log('this is the edit data: ', rentalData, rentalId);
+
   return (dispatch) => {
-    axios
-      .post(`/api/v1/rentals/${rentalId}`, rentalData, config)
+    return axios
+      .put(`/api/v1/rentals/${rentalId}`, rentalData, config)
       .then((rental) => dispatch(setRental(rental.data)))
-      .catch((err) => dispatch(setErrors(err.response.data.errors || [])));
+      .catch((err) => Promise.reject(err.response.data.errors) || []);
   };
 };
 
@@ -90,7 +95,7 @@ export const deleteRental = (rentalId) => {
     axios
       .delete(`/api/v1/rentals/${rentalId}`, config)
       .then((rental) => dispatch(removeRental(rental.data.id)))
-      .catch((err) => dispatch(setErrors(err.response.data.errors || [])));
+      .catch((err) => dispatch(setErrors(err.response.data.errors)));
   };
 };
 
@@ -102,7 +107,7 @@ export const fetchRentals = (searchInput) => {
       .get('/api/v1/rentals' + query)
       .then((rentals) => dispatch(setRentals(rentals.data)))
       .then(() => dispatch(setRentalSearch(searchInput)))
-      .catch((err) => dispatch(setErrors(err.response.data.errors || [])));
+      .catch((err) => dispatch(setErrors(err.response.data.errors)));
   };
 };
 
@@ -111,7 +116,7 @@ export const fetchRental = (id) => {
     axios
       .get(`/api/v1/rentals/${id}`)
       .then((rental) => dispatch(setRental(rental.data)))
-      .catch((err) => dispatch(setErrors(err.response.data.errors || [])));
+      .catch((err) => dispatch(setErrors(err.response.data.errors)));
   };
 };
 
@@ -122,7 +127,7 @@ export const fetchRentalLocation = (inputAddress, apiKey) => {
         `https://api.tomtom.com/search/2/geocode/${inputAddress}.JSON?key=${apiKey}`
       )
       .then((res) => dispatch(setRentalLocation(res.data.results[0].position)))
-      .catch((err) => dispatch(setErrors(err.response.data.errors || [])));
+      .catch((err) => dispatch(setErrors(err.response.data.errors)));
   };
 };
 
@@ -133,6 +138,6 @@ export const fetchRentalsByOwner = () => {
     axios
       .get('/api/v1/rentals/user', config)
       .then((rentals) => dispatch(setRentals(rentals.data)))
-      .catch((err) => dispatch(setErrors(err.response.data.errors || [])));
+      .catch((err) => dispatch(setErrors(err.response.data.errors)));
   };
 };

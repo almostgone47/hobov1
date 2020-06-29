@@ -32,17 +32,7 @@ exports.getUserRentals = (req, res) => {
   Rental.find({ owner: user.id })
     .populate('owner', '-password')
     .then((rentals) => res.send(rentals))
-    .catch(() =>
-      res.status(422).send({
-        errors: [
-          {
-            title: 'Rentals Not Found',
-            details:
-              'Could not retreive the requested rentals with user id provided.',
-          },
-        ],
-      })
-    );
+    .catch((err) => res.mongoError(err));
 };
 
 // edits a rental
@@ -119,22 +109,14 @@ exports.deleteRental = async (req, res) => {
     await rental.remove();
     return res.json({ id: rentalId });
   } catch (err) {
-    return res.status(422).send({
-      errors: [
-        {
-          title: 'Invalid User',
-          details: 'There was an error trying to delete this property.',
-        },
-      ],
-    });
+    return res.mongoError(err);
   }
 };
 
 // verifies owner of rental is same as logged in
 exports.verifyUser = async (req, res) => {
   const { user } = res.locals;
-  const { rentalId } = req.params;
-
+  const rentalId = req.params.id;
   try {
     const rental = await Rental.findById(rentalId).populate('owner');
 
@@ -150,7 +132,7 @@ exports.verifyUser = async (req, res) => {
     }
 
     return res.json({ status: 'verified' });
-  } catch (error) {
-    return res.mongoError(error);
+  } catch (err) {
+    return res.mongoError(err);
   }
 };

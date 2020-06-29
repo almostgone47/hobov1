@@ -30,8 +30,8 @@ class BackOffice extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchRentalsByOwner());
     this.props.dispatch(getBookingsByOwner());
+    this.props.dispatch(fetchRentalsByOwner());
   }
 
   componentWillUnmount() {
@@ -54,15 +54,14 @@ class BackOffice extends Component {
                   link={`/rental/${rental._id}/bookings`}
                   btnMenu={() => (
                     <>
-                      <Link
-                        to={`/rentals/${rental._id}/edit`}
-                        className="btn btn-warning"
+                      <button
                         onClick={() =>
                           this.props.dispatch(fetchRental(rental._id))
                         }
+                        className="btn btn-warning"
                       >
-                        Update
-                      </Link>
+                        <Link to={`/rental/${rental._id}/edit`}>Edit</Link>
+                      </button>
                       <button
                         onClick={() => this.deleteRental(rental._id)}
                         className="btn btn-danger"

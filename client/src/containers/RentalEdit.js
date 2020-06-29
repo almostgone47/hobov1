@@ -1,17 +1,48 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { withRouter, Redirect } from 'react-router-dom';
 
+import EditableInput from '../components/shared/EditableInput';
+import EditableTextarea from '../components/shared/EditableTextarea';
+import EditableSelect from '../components/shared/EditableSelect';
 import Map from '../components/Map/Map';
-import RentalInfo from '../components/Rental/RentalInfo';
 import RentalAssets from '../components/Rental/RentalAssets';
 import Layout from '../Layout/Layout';
+import { capitalize, rentalType } from '../helpers';
 import {
   fetchRental,
   fetchRentalLocation,
   resetRental,
+  editRental,
+  verifyRentalOwner,
 } from '../store/actions';
 
-class RentalDetails extends Component {
+const validateUser = (Component) => (props) => {
+  const [guard, setGuard] = useState({ canProceed: false, isChecking: true });
+  const { id } = props.match.params;
+
+  useEffect(() => {
+    verifyRentalOwner(id)
+      .then(() => setGuard({ canProceed: true, isChecking: false }))
+      .catch(() => setGuard({ canProceed: false, isChecking: false }));
+  }, [id]);
+
+  const { canProceed, isChecking } = guard;
+  if (!isChecking && canProceed) {
+    return <Component {...props} />;
+  } else if (!isChecking && !canProceed) {
+    return <Redirect to={'/'} />;
+  } else {
+    return <h1>Loading...</h1>;
+  }
+};
+
+class RentalEdit extends Component {
+  updateRental = (rentalData) => {
+    const rentalId = this.props.match.params.id;
+    return this.props.dispatch(editRental(rentalData, rentalId));
+  };
+
   componentDidMount() {
     const rentalId = this.props.match.params.id;
     this.props.dispatch(fetchRental(rentalId));
@@ -47,7 +78,84 @@ class RentalDetails extends Component {
           <div className="details-section">
             <div className="row">
               <div className="col-md-8">
-                <RentalInfo />
+                <div className="rental">
+                  Shared Rental:
+                  <EditableSelect
+                    inputObj={rental}
+                    objProperty={'shared'}
+                    options={[true, false]}
+                    inline={true}
+                    className={`rental-type type-${rental.category}`}
+                    updateRental={this.updateRental}
+                  />
+                  <EditableSelect
+                    inputObj={rental}
+                    objProperty={'category'}
+                    options={['apartment', 'condo', 'house']}
+                    className={`rental-type type-${rental.category}`}
+                    updateRental={this.updateRental}
+                  />
+                  {rental.owner && (
+                    <div className="rental-owner">
+                      <img
+                        src="https://api.adorable.io/avatars/285/abott@adorable.png"
+                        alt="owner"
+                      />
+                      <span>{rental.owner.username}</span>
+                    </div>
+                  )}
+                  <EditableInput
+                    inputObj={rental}
+                    objProperty={'title'}
+                    className={'rental-title'}
+                    updateRental={this.updateRental}
+                  />
+                  <h2 className="rental-city">
+                    <EditableInput
+                      inputObj={rental}
+                      objProperty={'city'}
+                      className={'rental-city'}
+                      updateRental={this.updateRental}
+                      transformView={(value) => capitalize(value)}
+                    />
+                  </h2>
+                  <EditableInput
+                    inputObj={rental}
+                    objProperty={'street'}
+                    className={'rental-street'}
+                    updateRental={this.updateRental}
+                    transformView={(value) => capitalize(value)}
+                  />
+                  <div className="rental-room-info mb-1">
+                    <span>
+                      <i className="fa fa-building"></i>
+                      <EditableInput
+                        inputObj={rental}
+                        objProperty={'bedrooms'}
+                        className={''}
+                        inline="true"
+                        updateRental={this.updateRental}
+                      />{' '}
+                      bedrooms
+                    </span>
+                    <span>
+                      <i className="fa fa-user"></i> {rental.bedrooms + 4}{' '}
+                      guests
+                    </span>
+                    <span>
+                      <i className="fa fa-bed"></i> {rental.bedrooms + 2} beds
+                    </span>
+                  </div>
+                  <EditableTextarea
+                    inputObj={rental}
+                    objProperty={'description'}
+                    className={'rental-description'}
+                    inline="true"
+                    updateRental={this.updateRental}
+                    rows={5}
+                    cols={50}
+                  />
+                </div>
                 <RentalAssets />
               </div>
             </div>
@@ -65,4 +173,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(RentalDetails);
+const RentalEditWithRouterAndValidate = withRouter(validateUser(RentalEdit));
+export default connect(mapStateToProps)(RentalEditWithRouterAndValidate);

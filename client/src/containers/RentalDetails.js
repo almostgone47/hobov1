@@ -10,6 +10,7 @@ import {
   fetchRental,
   fetchRentalLocation,
   resetRental,
+  resetBookings,
 } from '../store/actions';
 
 class RentalDetails extends Component {
@@ -26,6 +27,7 @@ class RentalDetails extends Component {
 
   componentWillUnmount() {
     this.props.dispatch(resetRental());
+    this.props.dispatch(resetBookings());
   }
 
   render() {
