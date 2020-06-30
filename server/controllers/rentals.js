@@ -2,15 +2,15 @@ const Rental = require('../models/rental');
 const Booking = require('../models/booking');
 
 // gets all rentals by search query or all rentals if no search query is provided
-exports.getRentals = (req, res) => {
+exports.getRentals = async (req, res) => {
   const query = req.query.city ? { city: req.query.city.toLowerCase() } : {};
 
-  Rental.find(query, (err, rentals) => {
-    if (err) {
-      return res.mongoError(err);
-    }
+  try {
+    const rentals = await Rental.find(query).populate('image');
     res.json(rentals);
-  });
+  } catch (err) {
+    return res.mongoError(err);
+  }
 };
 
 // gets a single rental with owner details by rental._id
@@ -22,7 +22,9 @@ exports.getRentalById = (req, res) => {
       return res.mongoError(err);
     }
     res.json(rental);
-  }).populate('owner', '-password -_id');
+  })
+    .populate('owner', '-password -_id')
+    .populate('image');
 };
 
 // gets all rentals that belong to a user
@@ -31,6 +33,7 @@ exports.getUserRentals = (req, res) => {
 
   Rental.find({ owner: user.id })
     .populate('owner', '-password')
+    .populate('image')
     .then((rentals) => res.send(rentals))
     .catch((err) => res.mongoError(err));
 };

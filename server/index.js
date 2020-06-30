@@ -12,8 +12,9 @@ const PORT = process.env.PORT || 3001;
 const rentalRoutes = require('./routes/rentals');
 const userRoutes = require('./routes/users');
 const bookingRoutes = require('./routes/bookings');
+const imageUploadsRoutes = require('./routes/image-upload');
 
-//Models what happens if I don't require models?????????????????
+//Models (what happens if I don't require models?????????????????)
 
 mongoose
   .connect(config.MONGODB_URI, {
@@ -21,8 +22,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    // const fakeDb = new FakeDb();
-    // fakeDb.seedDb();
+    const fakeDb = new FakeDb();
+    fakeDb.seedDb();
   });
 
 const app = express();
@@ -40,6 +41,7 @@ app.get('/api/v1/secret', onlyAuthUser, (req, res) => {
 app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
+app.use('/api/v1/image-uploads', imageUploadsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
