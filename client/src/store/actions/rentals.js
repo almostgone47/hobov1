@@ -13,6 +13,17 @@ import {
 } from './types';
 import { setErrors } from './errors';
 
+export const uploadImage = (image) => {
+  const config = getAuthConfig();
+
+  const formData = new FormData();
+  formData.append('image', image);
+
+  return axios
+    .post('/api/v1/image-uploads', formData, config)
+    .then((res) => res.data);
+};
+
 export const setRentals = (rentals) => {
   return {
     type: FETCH_RENTALS,
@@ -122,7 +133,7 @@ export const fetchRental = (id) => {
 
 export const fetchRentalLocation = (inputAddress, apiKey) => {
   return (dispatch) => {
-    axios
+    return axios
       .get(
         `https://api.tomtom.com/search/2/geocode/${inputAddress}.JSON?key=${apiKey}`
       )

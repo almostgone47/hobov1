@@ -2,60 +2,66 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { deleteBooking } from '../../store/actions';
+import { deleteBooking, setBooking } from '../../store/actions';
 import { capitalize, formatDate } from '../../helpers';
 
 const BookingList = (props) => {
   const { bookings } = props;
 
   return (
-    <div>
-      <section className="booking-listing">
-        <div className="row">
-          {bookings &&
-            bookings.map((booking) => (
-              <div key={booking._id} className="col-md-4">
-                <div className="card text-center">
-                  <div className="card-header">
-                    From: {booking.user.username}
-                  </div>
-
-                  <div className="card-block">
-                    <h4 className="card-title">
-                      {booking.rental.title} - {capitalize(booking.rental.city)}{' '}
-                    </h4>
-                    <p className="card-text booking-days">
-                      {formatDate(booking.startAt)} -{' '}
-                      {formatDate(booking.endAt)} | {booking.nights} nights
-                    </p>
-                    <p className="card-text">
-                      <span>Price: </span>{' '}
-                      <span className="booking-price-value">
-                        ${booking.price}
-                      </span>
-                    </p>
-                    <Link
-                      to={{ pathname: `/rentals/${booking.rental._id}` }}
-                      className="btn btn-main"
-                    >
-                      Go to Rental
-                    </Link>
-                    <button
-                      onClick={() => props.dispatch(deleteBooking(booking._id))}
-                      className="ml-1 btn btn-danger"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                  <div className="card-footer text-muted">
-                    Created at {formatDate(booking.createdAt)}
-                  </div>
-                </div>
-              </div>
-            ))}
+    <section className="booking-listing">
+      <div className="booking-list-grid-container">
+        <div className="grid-header">
+          <div>Property</div>
+          <div>Update Booking</div>
+          <div className="rating">Booking Details</div>
         </div>
-      </section>
-    </div>
+
+        {bookings &&
+          bookings.map((booking) => (
+            <div key={booking._id} className="booking-area">
+              <div className="property-details">
+                <h4>{booking.rental.title}</h4>
+                <p>
+                  {booking.rental.street} {capitalize(booking.rental.city)}
+                </p>
+              </div>
+
+              <div className="booking-edit">
+                <Link
+                  to={{ pathname: `/newreview` }}
+                  className="btn btn-main"
+                  onClick={() => props.dispatch(setBooking(booking))}
+                >
+                  Add a Review
+                </Link>
+                <button
+                  onClick={() => props.dispatch(deleteBooking(booking._id))}
+                  className="ml-1 btn btn-danger"
+                >
+                  Delete
+                </button>
+              </div>
+
+              <div className="booking-details">
+                <p>
+                  {formatDate(booking.startAt)} - {formatDate(booking.endAt)}
+                </p>
+                <p>
+                  Nights: {booking.nights} | Guests: {booking.guests}
+                </p>
+                <p>
+                  <span>Price: </span>{' '}
+                  <span className="booking-price-value">${booking.price}</span>
+                </p>
+                <p className="text-muted">
+                  Created at {formatDate(booking.createdAt)}
+                </p>
+              </div>
+            </div>
+          ))}
+      </div>
+    </section>
   );
 };
 const mapStateToProps = (state) => {

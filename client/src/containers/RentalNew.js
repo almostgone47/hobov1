@@ -19,7 +19,7 @@ class RentalNew extends Component {
             <div className="row">
               <div className="col-md-5">
                 <h1 className="page-title">Enter Your New Rental Details</h1>
-                <RentalForm action={this.createNewRental} />
+                <RentalForm createNewRental={this.createNewRental} />
                 {this.props.errors ? <Errors errors={this.props.errors} /> : ''}
               </div>
               <div className="col-md-6 ml-auto">

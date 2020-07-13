@@ -7,6 +7,7 @@ import RentalList from './containers/RentalList';
 import RentalDetails from './containers/RentalDetails';
 import RentalNew from './containers/RentalNew';
 import RentalEdit from './containers/RentalEdit';
+import NewReview from './containers/Review';
 import Login from './containers/Login';
 import Register from './containers/Register';
 import UserProfile from './containers/UserProfile';
@@ -34,6 +35,7 @@ class App extends Component {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <AuthRoute path="/profile" component={UserProfile} />
+        <AuthRoute path="/newreview" component={NewReview} />
         <AuthRoute path="/backoffice" component={BackOffice} />
         <AuthRoute path="/rentalnew" component={RentalNew} />
         <AuthRoute path="/rental/:id/edit" component={RentalEdit} />

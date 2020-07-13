@@ -2,9 +2,10 @@ import React, { Component, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
-import EditableInput from '../components/shared/EditableInput';
-import EditableTextarea from '../components/shared/EditableTextarea';
-import EditableSelect from '../components/shared/EditableSelect';
+import EditableInput from '../components/RentalEdit/EditableInput';
+import EditableTextarea from '../components/RentalEdit/EditableTextarea';
+import EditableSelect from '../components/RentalEdit/EditableSelect';
+import EditableImage from '../components/RentalEdit/EditableImage';
 import Map from '../components/Map/Map';
 import RentalAssets from '../components/Rental/RentalAssets';
 import Layout from '../Layout/Layout';
@@ -62,11 +63,18 @@ class RentalEdit extends Component {
     const { rental } = this.props;
     return (
       <Layout>
-        <section id="rentalDetails">
+        <section id="rentalEdit">
           <div className="upper-section">
             <div className="row">
               <div className="col-md-6">
-                <img src={rental.image} alt=""></img>
+                <EditableImage
+                  inputObj={rental}
+                  objProperty={'image'}
+                  updateRental={this.updateRental}
+                  transformView={(image) => image.url}
+                  containerType={'block'}
+                  className="rental-img mb-2"
+                />
               </div>
 
               <div className="col-md-6">
@@ -84,7 +92,7 @@ class RentalEdit extends Component {
                     inputObj={rental}
                     objProperty={'shared'}
                     options={[true, false]}
-                    inline={true}
+                    containerType={'inline'}
                     className={`rental-type type-${rental.category}`}
                     updateRental={this.updateRental}
                   />
@@ -133,7 +141,7 @@ class RentalEdit extends Component {
                         inputObj={rental}
                         objProperty={'bedrooms'}
                         className={''}
-                        inline="true"
+                        containerType={'inline'}
                         updateRental={this.updateRental}
                       />{' '}
                       bedrooms
@@ -150,7 +158,7 @@ class RentalEdit extends Component {
                     inputObj={rental}
                     objProperty={'description'}
                     className={'rental-description'}
-                    inline="true"
+                    containerType={'inline'}
                     updateRental={this.updateRental}
                     rows={5}
                     cols={50}

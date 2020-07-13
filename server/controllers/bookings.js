@@ -152,13 +152,16 @@ exports.updateBooking = async (req, res) => {
   const bookingId = req.params.id;
   const bookingData = req.body;
   const user = res.locals.user;
-
   try {
-    const booking = await (
-      await Booking.findById(bookingId).populate('user', '-password')
-    ).populated('rental');
+    const booking = await await Booking.findById(bookingId)
+      .populate('user', '-password')
+      .populate('rental');
 
-    if (booking.rental.id !== user.id || booking.user.id !== user.id) {
+    if (booking.rental.id === user.id || booking.user.id === user.id) {
+      booking.set(bookingData);
+      await booking.save();
+      return res.status(200).send(booking);
+    } else {
       return res.status(422).send({
         errors: [
           {
@@ -167,10 +170,6 @@ exports.updateBooking = async (req, res) => {
           },
         ],
       });
-    } else {
-      booking.set(bookingData);
-      await booking.save();
-      res.status(200).send(booking);
     }
   } catch (err) {
     return res.mongoError(err);
@@ -199,6 +198,7 @@ exports.createBooking = async (req, res) => {
     const isValid = checkAvailability(newBooking, bookings);
     if (isValid) {
       const savedBooking = await newBooking.save();
+      console.log('CREATING BOOKING: ', isValid, savedBooking);
       const allBookings = bookings.concat(savedBooking);
       return res.json({ bookings: allBookings });
     } else {

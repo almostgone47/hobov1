@@ -38,6 +38,17 @@ export const deleteBooking = (bookingId) => {
   };
 };
 
+export const updateBooking = (bookingData, bookingId) => {
+  const config = getAuthConfig();
+
+  return (dispatch) => {
+    axios
+      .put(`/api/v1/bookings/${bookingId}`, bookingData, config)
+      .then((res) => dispatch(setBookings(res.data.bookings)))
+      .catch((err) => Promise.reject(err.response.data.errors) || []);
+  };
+};
+
 export const createBooking = (booking) => {
   const config = getAuthConfig();
   return (dispatch) => {

@@ -7,18 +7,13 @@ import RentalAssets from '../components/Rental/RentalAssets';
 import Booking from '../components/Booking/Booking';
 import Layout from '../Layout/Layout';
 import {
-  fetchRental,
+  setRental,
   fetchRentalLocation,
   resetRental,
   resetBookings,
 } from '../store/actions';
 
 class RentalDetails extends Component {
-  componentDidMount() {
-    const rentalId = this.props.match.params.id;
-    this.props.dispatch(fetchRental(rentalId));
-  }
-
   componentDidUpdate() {
     const inputAddress = `${this.props.rental.street}, ${this.props.rental.city}`;
     const apiKey = 'XVGNGBASbRA59WTKYrsYHsLeeTZL0WqO';
@@ -38,7 +33,7 @@ class RentalDetails extends Component {
           <div className="upper-section">
             <div className="row">
               <div className="col-md-6">
-                <img src={rental.image} alt=""></img>
+                <img className="rental-img" src={rental.image.url} alt=""></img>
               </div>
 
               <div className="col-md-6">

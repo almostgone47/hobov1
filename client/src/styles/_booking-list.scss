@@ -1,22 +1,42 @@
 .booking-listing {
-  .card {
-    margin-bottom: 20px;
+  // .booking-list-grid-container {
+  //   display: grid;
+  //   grid-template-columns: 2fr 1fr 1fr;
+  //   grid-template-areas: 'header header header' 'property edit booking';
+  // }
+  .grid-header {
+    grid-area: header;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    background-color: #eeeeee;
+    border: 1px solid #cecece;
+    padding: 3px 5px;
   }
 
+  .booking-area {
+    height: 155px;
+    grid-area: booking;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-areas: 'property edit booking';
+    border: 1px solid #eeeeee;
+    padding: 5px;
+
+    .property-details {
+      grid-area: property;
+    }
+    .booking-edit {
+      grid-area: edit;
+    }
+    .booking-details {
+      grid-area: booking;
+      .text-muted {
+        font-size: 12px;
+      }
+    }
+  }
   h1 {
     margin-bottom: 20px;
-  }
-
-  .card-block {
-    padding: 20px;
-  }
-
-  .card-header {
-    text-transform: capitalize;
-  }
-
-  .card-title {
-    font-size: 18px;
   }
 
   .booking {

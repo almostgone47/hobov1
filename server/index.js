@@ -12,9 +12,14 @@ const PORT = process.env.PORT || 3001;
 const rentalRoutes = require('./routes/rentals');
 const userRoutes = require('./routes/users');
 const bookingRoutes = require('./routes/bookings');
+const reviewRoutes = require('./routes/reviews');
 const imageUploadsRoutes = require('./routes/image-upload');
 
-//Models (what happens if I don't require models?????????????????)
+//Models
+require('./models/booking');
+require('./models/cloudinaryImage');
+require('./models/rental');
+require('./models/user');
 
 mongoose
   .connect(config.MONGODB_URI, {
@@ -22,11 +27,12 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    const fakeDb = new FakeDb();
-    fakeDb.seedDb();
+    // const fakeDb = new FakeDb();
+    // fakeDb.seedDb();
   });
 
 const app = express();
+
 // Middleware for req.body property
 app.use(bodyParser.json());
 app.use(dbErrorHandler);
@@ -37,10 +43,12 @@ app.get('/api/v1/secret', onlyAuthUser, (req, res) => {
     user: res.locals.user,
   });
 });
+
 // API Routes
 app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
+app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/image-uploads', imageUploadsRoutes);
 
 app.listen(PORT, () => {

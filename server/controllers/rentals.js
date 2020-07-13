@@ -59,7 +59,10 @@ exports.updateRental = async (req, res) => {
     } else {
       rental.set(rentalData);
       await rental.save();
-      res.status(200).send(rental);
+      const updatedRental = await Rental.findById(rentalId)
+        .populate('owner')
+        .populate('image');
+      res.status(200).send(updatedRental);
     }
   } catch (err) {
     return res.mongoError(err);
