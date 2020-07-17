@@ -1,38 +1,44 @@
 .navbar {
-    padding: 20px;
-    margin-bottom: 40px;
-    background-color: $main-black-color;
-  
-    .hobov-search {
-        height: 40px;
-        width: 300px !important;
-    }
+  padding: 20px;
+  margin-bottom: 40px;
+  background-color: $main-black-color;
 
-    .navbar-brand {
-        margin-right: 30px;
-        font-size: 27px;
-        letter-spacing: 1px;
-        color: $main-color !important;
-        font-weight: 500;
-    }
+  .search-img {
+    margin-right: 8px;
+  }
 
-    .nav-item {
-        font-size: 14px;
-    }
+  .hobov-search {
+    height: 40px;
+    width: 300px !important;
+  }
 
-    .btn-hobov-search {
-        border-color: $main-color;
-        color: $main-color;
+  .navbar-brand {
+    margin-right: 30px;
+    font-size: 27px;
+    letter-spacing: 1px;
+    color: $main-color !important;
+    font-weight: 500;
+  }
 
-        &:hover, &:focus, &:active {
-        background-color: transparent !important;
-        border-color: $main-color !important;
-        color: $main-color !important;
-        box-shadow: none;
-        }
-    }
+  .nav-item {
+    font-size: 14px;
+  }
 
-    .nav-item {
-        color: $main-white-color;
+  .btn-hobov-search {
+    border-color: $main-color;
+    color: $main-color;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: transparent !important;
+      border-color: $main-color !important;
+      color: $main-color !important;
+      box-shadow: none;
     }
+  }
+
+  .nav-item {
+    color: $main-white-color;
+  }
 }

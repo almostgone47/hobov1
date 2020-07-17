@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+import logo from '../../images/logo.png';
+import location from '../../images/header-location.png';
 import { logoutUser, fetchRentals } from '../../store/actions/index';
 
 class Header extends Component {
@@ -32,9 +35,10 @@ class Header extends Component {
         <div className="container">
           <div onClick={(e) => this.searchHandler(e, this.clearSearchHandler)}>
             <Link to={'/rentals'} className="navbar-brand">
-              Hobov
+              <img src={logo} />
             </Link>
           </div>
+          <img src={location} className="search-img" />
           <form
             onSubmit={(e) => this.searchHandler(e, this.clearSearchHandler)}
             className="form-inline my-2 my-lg-0"
@@ -45,7 +49,7 @@ class Header extends Component {
               value={this.state.search}
               className="form-control mr-sm-2 hobov-search"
               type="search"
-              placeholder="Search a city!"
+              placeholder="Let's go to...."
               aria-label="Search"
             />
             <button

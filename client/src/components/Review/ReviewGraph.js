@@ -79,9 +79,9 @@ const ReviewGraph = (props) => {
       sleepRating,
     ];
 
-    // creates an SVG area
+    // removes previously painted graph
     d3.select('.GraphContainer').selectAll('svg').remove();
-
+    // attaches a bar graph to each div.Rating
     d3.select('.GraphContainer')
       .selectAll('.Rating')
       .data(ratings)
