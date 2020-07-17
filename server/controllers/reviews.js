@@ -12,9 +12,8 @@ exports.getUserReviews = (req, res) => {
 
 // gets all Reviews that belong to a rental
 exports.getRentalReviews = (req, res) => {
-  const { user } = res.locals;
-
-  Review.find({ rental: user.id })
+  Review.find({ rental: req.params.id })
+    .populate('user')
     .then((reviews) => res.send(reviews))
     .catch((err) => res.mongoError(err));
 };
@@ -27,22 +26,48 @@ exports.createReview = async (req, res) => {
 
   let booking = await Booking.findById(bookingId)
     .populate('user')
+    .populate('review')
     .populate('rental');
 
-  if (currentUser.id === booking.user.id && !booking.isReviewed) {
+  if (currentUser.id === booking.user.id && !booking.review) {
     reviewData.user = currentUser.id;
     reviewData.rental = booking.rental.id;
 
-    booking.isReviewed = true;
-    await booking.save();
-    console.log('Booking Saved: ', booking);
+    // get overall rating from average of input
+    const ratings = [
+      reviewData.cleanRating,
+      reviewData.socialRating,
+      reviewData.comfortRating,
+      reviewData.locationRating,
+      reviewData.serviceRating,
+      reviewData.sleepRating,
+    ];
+
+    reviewData.aveRating = (
+      ratings.reduce((acc, curr) => Number(acc) + Number(curr)) / ratings.length
+    ).toFixed(1);
+
     try {
       const review = await Review.create(reviewData);
+      booking.review = review;
+      booking.save();
+
       res.json({ message: 'Review created successfully', review });
     } catch (err) {
       return res.mongoError(err);
     }
   } else {
+    if (booking.review) {
+      return res.status(423).send({
+        errors: [
+          {
+            title: 'Cannot Review Booking',
+            details:
+              'This booking has already been reviewed and can only be reviewed once',
+          },
+        ],
+      });
+    }
     return res.status(422).send({
       errors: [
         {

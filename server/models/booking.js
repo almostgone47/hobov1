@@ -9,6 +9,7 @@ const bookingSchema = new Schema({
   guests: { type: Number, required: true },
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   rental: { type: Schema.Types.ObjectId, ref: 'Rental', required: true },
+  review: { type: Schema.Types.ObjectId, ref: 'Review', default: null },
   createdAt: { type: Date, default: Date.now },
 });
 

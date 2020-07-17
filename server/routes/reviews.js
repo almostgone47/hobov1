@@ -7,7 +7,7 @@ const { onlyAuthUser } = require('../controllers/users');
 router.get('/user', onlyAuthUser, controllers.getUserReviews);
 
 // get all reviews for each rental
-router.get('/rental', onlyAuthUser, controllers.getRentalReviews);
+router.get('/rental/:id', controllers.getRentalReviews);
 
 // create a new review
 router.post('/new', onlyAuthUser, controllers.createReview);

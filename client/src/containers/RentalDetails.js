@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import Map from '../components/Map/Map';
 import RentalInfo from '../components/Rental/RentalInfo';
 import RentalAssets from '../components/Rental/RentalAssets';
+import ReviewList from '../components/Review/ReviewList';
 import Booking from '../components/Booking/Booking';
 import Layout from '../Layout/Layout';
 import {
-  setRental,
+  fetchRentalReviews,
   fetchRentalLocation,
   resetRental,
   resetBookings,
@@ -17,7 +18,8 @@ class RentalDetails extends Component {
   componentDidUpdate() {
     const inputAddress = `${this.props.rental.street}, ${this.props.rental.city}`;
     const apiKey = 'XVGNGBASbRA59WTKYrsYHsLeeTZL0WqO';
-    this.props.dispatch(fetchRentalLocation(inputAddress, apiKey));
+    // this.props.dispatch(fetchRentalLocation(inputAddress, apiKey));
+    this.props.dispatch(fetchRentalReviews(this.props.rental._id));
   }
 
   componentWillUnmount() {
@@ -47,6 +49,7 @@ class RentalDetails extends Component {
               <div className="col-md-8">
                 <RentalInfo />
                 <RentalAssets />
+                <ReviewList />
               </div>
               <div className="col-md-4">
                 <Booking />

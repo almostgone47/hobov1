@@ -9,13 +9,18 @@ class Review extends Component {
   createNewReview = (reviewData) => {
     // reviewData.isReviewed = true;
     this.props.dispatch(createReview(reviewData, this.props.booking._id));
+    this.props.history.push('/profile');
+    console.log('created review: ', this.props);
   };
 
   render() {
+    const { booking } = this.props;
     return (
       <Layout>
-        <h2>Hostel Name</h2>
-        <p>Hostel Address</p>
+        <h2>Add Review for {booking.rental.title}</h2>
+        <p>
+          {booking.rental.street} {booking.rental.city}
+        </p>
         <hr />
         <p>Help other travellers by telling a bit about your experience</p>
         <hr />

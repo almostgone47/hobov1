@@ -31,13 +31,88 @@ const NewReview = ({ createNewReview }) => {
       </div>
 
       <div className="form-group">
-        <label htmlFor="category">Rating</label>
+        <label htmlFor="category">Clean Rating</label>
 
         <select
           ref={register}
-          name="rating"
+          name="cleanRating"
           className="form-control"
-          id="rating"
+          id="cleanRating"
+        >
+          {reviewScores.map((num) => (
+            <option key={num}> {num} </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="category">Cleanliness</label>
+
+        <select
+          ref={register}
+          name="socialRating"
+          className="form-control"
+          id="socialRating"
+        >
+          {reviewScores.map((num) => (
+            <option key={num}> {num} </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="category">Comfort</label>
+
+        <select
+          ref={register}
+          name="comfortRating"
+          className="form-control"
+          id="comfortRating"
+        >
+          {reviewScores.map((num) => (
+            <option key={num}> {num} </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="category">Location</label>
+
+        <select
+          ref={register}
+          name="locationRating"
+          className="form-control"
+          id="locationRating"
+        >
+          {reviewScores.map((num) => (
+            <option key={num}> {num} </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="category">Service</label>
+
+        <select
+          ref={register}
+          name="serviceRating"
+          className="form-control"
+          id="serviceRating"
+        >
+          {reviewScores.map((num) => (
+            <option key={num}> {num} </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="category">Sleep Quality</label>
+
+        <select
+          ref={register}
+          name="sleepRating"
+          className="form-control"
+          id="sleepRating"
         >
           {reviewScores.map((num) => (
             <option key={num}> {num} </option>

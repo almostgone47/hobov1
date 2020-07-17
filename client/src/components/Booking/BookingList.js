@@ -6,7 +6,26 @@ import { deleteBooking, setBooking } from '../../store/actions';
 import { capitalize, formatDate } from '../../helpers';
 
 const BookingList = (props) => {
-  const { bookings } = props;
+  const { bookings, currentUser } = props;
+
+  // review, if current user is booking.user && booking.isReviewed === false show review button
+  let reviewStatus = (booking) => {
+    if (currentUser.sub === booking.user._id && !booking.review) {
+      return (
+        <Link
+          to={{ pathname: `/newreview` }}
+          className="btn btn-main"
+          onClick={() => props.dispatch(setBooking(booking))}
+        >
+          Add a Review
+        </Link>
+      );
+    } else if (booking.review) {
+      return <div>{booking.review.aveRating}</div>;
+    } else {
+      return <div>Not yet reviewed</div>;
+    }
+  };
 
   return (
     <section className="booking-listing">
@@ -28,13 +47,7 @@ const BookingList = (props) => {
               </div>
 
               <div className="booking-edit">
-                <Link
-                  to={{ pathname: `/newreview` }}
-                  className="btn btn-main"
-                  onClick={() => props.dispatch(setBooking(booking))}
-                >
-                  Add a Review
-                </Link>
+                {reviewStatus(booking)}
                 <button
                   onClick={() => props.dispatch(deleteBooking(booking._id))}
                   className="ml-1 btn btn-danger"
@@ -67,6 +80,7 @@ const BookingList = (props) => {
 const mapStateToProps = (state) => {
   return {
     bookings: state.bookingData.bookings,
+    currentUser: state.auth.currentUser,
   };
 };
 

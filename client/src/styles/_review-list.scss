@@ -1,0 +1,251 @@
+#reviews {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 75%;
+}
+
+body {
+  padding: 0;
+  font-size: 16px;
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
+    Helvetica Neue, sans-serif;
+  color: rgb(72, 72, 72);
+  width: 100%;
+  margin: 0 auto;
+}
+
+.Reviews {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.ReviewNum {
+  display: inline;
+}
+
+.RightNum {
+  border-left: solid 1px #eaeaea;
+  margin-left: 15px;
+  padding-left: 15px;
+}
+
+.ReviewNum img {
+  width: 15px;
+  margin: 0 5px -2px;
+}
+
+.ReviewSearch {
+  border-radius: 5px;
+  font-size: 14px;
+  letter-spacing: normal;
+  color: #484848;
+  padding: 8px 7px;
+  font-weight: 400;
+  border: solid 1px #e0e0e0;
+  display: block;
+  width: 310px;
+  margin: 22px 0 0 0;
+}
+
+.ReviewTop {
+  margin-bottom: -25px;
+}
+// graph css
+.GraphContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  border-radius: 12px;
+  -webkit-box-shadow: 0px 0px 9px 4px rgba(234, 234, 234, 1);
+  -moz-box-shadow: 0px 0px 9px 4px rgba(234, 234, 234, 1);
+  box-shadow: 0px 0px 9px 4px rgba(234, 234, 234, 1);
+  padding: 24px 24px 16px;
+  height: 350px;
+  margin-top: 25px;
+  margin-bottom: 40px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px 0px;
+  position: sticky;
+  top: 50px;
+}
+
+.cleaning,
+.social,
+.comfort,
+.location,
+.service,
+.sleep {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.GraphContainer tr,
+.GraphContainer {
+  padding: 35px 30px;
+  width: 100%;
+}
+.ImageCell img {
+  width: 26px;
+  margin: 0 7px 0px 0;
+  position: relative;
+  right: 3px;
+}
+
+.GraphContainer ul {
+  padding-inline-start: 0;
+  margin: 0;
+}
+
+.GraphContainer li {
+  list-style: none;
+  padding: 10px;
+}
+
+.MiddleRow {
+  border-bottom: solid #e0e0e0 1px;
+  width: 100%;
+}
+
+.Rating {
+  color: rgb(0, 132, 137);
+  height: 5px;
+  padding-top: 2px;
+}
+
+.bar {
+  width: 25px;
+  height: 100px;
+  display: inline-block;
+  background-color: blue;
+}
+
+.RatingNum {
+  font-weight: 600;
+  text-align: center;
+}
+
+.top-row {
+  align-self: end;
+  padding-bottom: 5px;
+}
+
+.ImageCell {
+  text-align: center;
+  padding-left: 12px;
+}
+// pagination.css
+
+.Pagination {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.PaginationArrow,
+.PaginationArrow a,
+.ReviewItem,
+.ReviewItem a {
+  text-decoration: none;
+  color: rgb(0, 132, 137);
+}
+
+.PaginationArrow {
+  padding: 2px 7px 3px 5px;
+  border: solid 1px rgb(0, 132, 137);
+  border-radius: 4px;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.PaginationArrow:hover {
+  color: white;
+  background-color: rgb(0, 132, 137);
+  cursor: pointer;
+}
+// review.css
+.ReviewContainer {
+  border-bottom: solid 1px #e0e0e0;
+  padding-bottom: 12px;
+}
+
+.ReviewHeader img {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+}
+
+.ReviewHeader {
+  margin-top: 28px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Name {
+  margin: 2px 0 6px 0;
+  font-weight: 400;
+}
+
+.Date {
+  margin: 0 0 2px 0;
+  font-weight: 100;
+  font-size: 13px;
+}
+
+.NameDate {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  width: 100%;
+}
+
+.ReviewBody {
+  margin: 16px 60px 0 0;
+  font-weight: 300;
+  width: 100%;
+}
+
+.ReviewCard {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px 0px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px 0px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px 0px;
+  border-radius: 10px;
+  padding: 1px 40px 11px;
+  margin-bottom: 35px;
+}
+
+.ReviewRatingCol {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.ReviewRatingCol ul {
+  list-style: none;
+  padding-inline-start: 0px;
+}
+
+.ReviewRatingCol li {
+  padding: 2px;
+}
+
+.CardNums {
+  font-weight: 400;
+  color: rgb(0, 132, 137);
+}
+
+.ReviewHeadAve {
+  font-weight: 400;
+  color: rgb(0, 180, 180);
+  font-size: 22px;
+  /* background-color: rgb(0, 210, 210); */
+  border-radius: 50%;
+  padding: 10px 8px;
+  margin: 0 0 11px;
+  /* border: solid 2px; */
+  box-shadow: rgba(0, 180, 180, 0.16) 0px 1px 4px 0px;
+}

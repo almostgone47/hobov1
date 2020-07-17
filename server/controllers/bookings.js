@@ -29,6 +29,7 @@ exports.getUserBookings = (req, res) => {
   Booking.find({ user })
     .populate('user', '-password')
     .populate('rental')
+    .populate('review')
     .then((bookings) => res.send(bookings))
     .catch(() =>
       res.status(422).send({
@@ -48,6 +49,7 @@ exports.getRentalBookings = (req, res) => {
 
   Booking.find({ rental: rentalId })
     .populate('user', '-password')
+    .populate('review')
     .then((booking) => res.send(booking))
     .catch(() =>
       res.status(422).send({
@@ -61,7 +63,7 @@ exports.getRentalBookings = (req, res) => {
     );
 };
 
-// gets all bookings that belong to a rental property
+// gets all bookings for one owner of multiple rental properties
 exports.getAllRentalOwnersBookings = async (req, res) => {
   const { user } = res.locals;
   const rentals = await Rental.find({ owner: user })
@@ -69,7 +71,8 @@ exports.getAllRentalOwnersBookings = async (req, res) => {
     .select('_id');
   const bookings = await Booking.find({ rental: rentals })
     .populate('rental', 'title')
-    .populate('user');
+    .populate('user')
+    .populate('review');
   try {
     return res.send(bookings);
   } catch (err) {
